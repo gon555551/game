@@ -185,6 +185,7 @@ class Game:
     
     # quitter
     def quit(self) -> None:
+        self.frame()
         self.exit = input('Do you want to quit (y/N): ')
         match self.exit:
             case 'y':
