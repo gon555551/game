@@ -16,7 +16,7 @@ class Game:
         self.board = Board()
         self.frame()
         
-        self.player = Player('@')
+        self.player = Player(input('What\'s your name? '), '@')
         
         self.start()
         

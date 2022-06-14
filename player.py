@@ -4,6 +4,6 @@ class Player:
     name: str
     icon: str
     
-    def __init__(self, icon: str) -> None:
-        self.name = input('what\'s your name? ')
+    def __init__(self, name: str, icon: str) -> None:
+        self.name = name
         self.icon = icon
