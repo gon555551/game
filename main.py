@@ -1,5 +1,6 @@
 from os import system
 import keyboard
+from player import *
 
 class Board:
     """the board"""
@@ -16,16 +17,6 @@ class Board:
                       ['#', '.', '.', '.', '.', '.', '.', '.', '.', '#'],
                       ['#', '.', '.', '.', '.', '.', '.', '.', '.', '#'],
                       ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#']]
-    
-class Player:
-    """the player"""
-    
-    name: str
-    icon: str
-    
-    def __init__(self, icon: str) -> None:
-        self.name = input('what\'s your name? ')
-        self.icon = icon
     
 class Game:
     """the game"""
