@@ -15,30 +15,11 @@ class Game:
         self.player = Player()
         
         self.start()
-        
-        # commands
-        while True:
-            event = keyboard.read_event()
-            match event.name + event.event_type:
-                case 'wdown':
-                    self.goup()
-                case 'adown':
-                    self.goleft()
-                case 'xdown':
-                    self.godown()
-                case 'ddown':
-                    self.goright()
-                case 'qdown':
-                    self.goupleft()
-                case 'edown':
-                    self.goupright()
-                case 'zdown':
-                    self.godownleft()
-                case 'cdown':
-                    self.godownright()
-                case 'escdown':
-                    self.quit()
+        self.process()
     
+    
+    # THINGS START HERE
+    # 
     # start and place the player at (4, 4)
     def start(self) -> None:
         self.board = Board()
@@ -193,3 +174,28 @@ class Game:
             case _:
                 self.frame()
                 self.quit()
+
+    def process(self) -> None:
+        # commands
+        while True:
+            event = keyboard.read_event()
+            match event.name + event.event_type:
+                case 'wdown':
+                    self.goup()
+                case 'adown':
+                    self.goleft()
+                case 'xdown':
+                    self.godown()
+                case 'ddown':
+                    self.goright()
+                case 'qdown':
+                    self.goupleft()
+                case 'edown':
+                    self.goupright()
+                case 'zdown':
+                    self.godownleft()
+                case 'cdown':
+                    self.godownright()
+                case 'escdown':
+                    self.quit()
+    
