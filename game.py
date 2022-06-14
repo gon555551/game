@@ -10,12 +10,15 @@ class Game:
     board: list[list]
     player: Player
     actionCount: int
+    stage: int
     
     def __init__(self) -> None:
         self.actionCount = 0
+        self.stage = 2
         
         self.player = Player()
-        self.board = starting_board
+        self.board = Board().board[self.stage]
+        
         self.frame(action=False)
         
         self.board[4][4] = self.player
@@ -40,6 +43,9 @@ class Game:
         if action:
             self.actionCount += 1
         print('Action Count:', self.actionCount)
+        
+        print(Board().board[self.stage])
+    
 
     # command processor
     def process(self) -> None:
@@ -78,12 +84,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x-1][y] != tiles['empty']:
+        if self.board[x-1][y] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x-1][y] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
@@ -92,12 +98,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x][y-1] != tiles['empty']:
+        if self.board[x][y-1] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x][y-1] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
@@ -106,12 +112,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x+1][y] != tiles['empty']:
+        if self.board[x+1][y] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x+1][y] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
@@ -120,12 +126,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x][y+1] != tiles['empty']:
+        if self.board[x][y+1] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x][y+1] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
@@ -134,12 +140,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x-1][y-1] != tiles['empty']:
+        if self.board[x-1][y-1] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x-1][y-1] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
@@ -148,12 +154,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x-1][y+1] != tiles['empty']:
+        if self.board[x-1][y+1] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x-1][y+1] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
         
@@ -162,12 +168,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x+1][y-1] != tiles['empty']:
+        if self.board[x+1][y-1] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x+1][y-1] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
@@ -176,12 +182,12 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x+1][y+1] != tiles['empty']:
+        if self.board[x+1][y+1] != Board().tiles['empty']:
             self.fail()
             return
         
         self.board[x+1][y+1] = self.player
-        self.board[x][y] = tiles['empty']
+        self.board[x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
