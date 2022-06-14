@@ -1,0 +1,122 @@
+from board import *
+from player import *
+from os import system
+import keyboard
+
+class Game:
+    """the game"""
+    
+    board: Board
+    player: Player
+    exit: str
+    
+    def __init__(self) -> None:
+        self.exit = None
+        self.player = Player()
+        
+        self.start()
+        
+        # commands
+        keyboard.add_hotkey('w', self.goup)
+        keyboard.add_hotkey('a', self.goleft)
+        keyboard.add_hotkey('s', self.godown)
+        keyboard.add_hotkey('d', self.goright)
+        keyboard.add_hotkey('esc', self.quit)
+        
+        # event loop
+        while self.exit != 'y':
+            pass
+    
+    # start and place the player at (4, 4)
+    def start(self) -> None:
+        self.board = Board()
+        self.frame()
+        
+        self.player.name = input('What\'s your name? ')
+        
+        self.board.board[4][4] = self.player
+        self.frame()
+    
+    # load a new frame
+    def frame(self) -> None:
+        system('cls')
+        for a in range(10):
+            line = ''
+            for b in range(10):
+                if self.board.board[a][b] == self.player:
+                    line += repr(self.player)
+                else:
+                    line += self.board.board[a][b]
+            print(line)
+    
+    # go up
+    def goup(self) -> None:
+        coor = [coor for coor in self.board.board if self.player in coor][0]
+        x, y = self.board.board.index(coor), coor.index(self.player)
+        
+        if self.board.board[x-1][y] != self.board.tiles['empty']:
+            self.frame()
+            print('Can\'t move there!')
+            return
+        
+        self.board.board[x-1][y] = self.player
+        self.board.board[x][y] = self.board.tiles['empty']
+        
+        self.frame()
+    
+    # go left
+    def goleft(self) -> None:
+        coor = [coor for coor in self.board.board if self.player in coor][0]
+        x, y = self.board.board.index(coor), coor.index(self.player)
+        
+        if self.board.board[x][y-1] != self.board.tiles['empty']:
+            self.frame()
+            print('Can\'t move there!')
+            return
+        
+        self.board.board[x][y-1] = self.player
+        self.board.board[x][y] = self.board.tiles['empty']
+        
+        self.frame()
+    
+    # go down
+    def godown(self) -> None:
+        coor = [coor for coor in self.board.board if self.player in coor][0]
+        x, y = self.board.board.index(coor), coor.index(self.player)
+        
+        if self.board.board[x+1][y] != self.board.tiles['empty']:
+            self.frame()
+            print('Can\'t move there!')
+            return
+        
+        self.board.board[x+1][y] = self.player
+        self.board.board[x][y] = self.board.tiles['empty']
+        
+        self.frame()
+    
+    # go right
+    def goright(self) -> None:
+        coor = [coor for coor in self.board.board if self.player in coor][0]
+        x, y = self.board.board.index(coor), coor.index(self.player)
+        
+        if self.board.board[x][y+1] != self.board.tiles['empty']:
+            self.frame()
+            print('Can\'t move there!')
+            return
+        
+        self.board.board[x][y+1] = self.player
+        self.board.board[x][y] = self.board.tiles['empty']
+        
+        self.frame()
+    
+    # quitter
+    def quit(self) -> None:
+        self.exit = input('Do you want to quit (y/N): ')
+        match self.exit:
+            case 'y':
+                pass
+            case 'N':
+                self.frame()
+            case _:
+                self.frame()
+                self.quit()
