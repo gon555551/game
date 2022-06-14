@@ -1,5 +1,5 @@
-from data.board import *
 from data.player import *
+from data.board import *
 from os import system
 import keyboard
 import sys
@@ -9,18 +9,38 @@ class Game:
     
     board: list[list]
     player: Player
+    actionCount: int
     
     def __init__(self) -> None:
+        self.actionCount = 0
+        
         self.player = Player()
         self.board = starting_board
-        self.frame()
+        self.frame(action=False)
         
         self.board[4][4] = self.player
-        self.frame()
+        self.frame(action=False)
         
         self.process()
     
-    
+    # load a new frame
+    def frame(self, action: bool = True) -> None:
+        print("\x1b[?25l") # hide cursor
+        system('cls')
+        line = ''
+        for a in range(10):
+            for b in range(10):
+                if self.board[a][b] == self.player:
+                    line += repr(self.player)
+                else:
+                    line += self.board[a][b]
+            line += '\n'
+        print(line[:-1])
+        
+        if action:
+            self.actionCount += 1
+        print('Action Count:', self.actionCount)
+
     # command processor
     def process(self) -> None:
         # commands
@@ -46,19 +66,10 @@ class Game:
                 case 'escdown':
                     self.quit()
     
-    # load a new frame
-    def frame(self) -> None:
-        system('cls')
-        line = ''
-        for a in range(10):
-            for b in range(10):
-                if self.board[a][b] == self.player:
-                    line += repr(self.player)
-                else:
-                    line += self.board[a][b]
-            line += '\n'
-        print(line)
-    
+    # failed to move
+    def fail(self) -> None:
+        self.frame(action=False)
+        print('Can\'t move there!')
     
     # command methods
     #
@@ -68,8 +79,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x-1][y] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x-1][y] = self.player
@@ -83,8 +93,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x][y-1] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x][y-1] = self.player
@@ -98,8 +107,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x+1][y] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x+1][y] = self.player
@@ -113,8 +121,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x][y+1] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x][y+1] = self.player
@@ -128,8 +135,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x-1][y-1] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x-1][y-1] = self.player
@@ -143,8 +149,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x-1][y+1] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x-1][y+1] = self.player
@@ -158,8 +163,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x+1][y-1] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x+1][y-1] = self.player
@@ -173,8 +177,7 @@ class Game:
         x, y = self.board.index(coor), coor.index(self.player)
         
         if self.board[x+1][y+1] != tiles['empty']:
-            self.frame()
-            print('Can\'t move there!')
+            self.fail()
             return
         
         self.board[x+1][y+1] = self.player
@@ -184,13 +187,14 @@ class Game:
     
     # quitter
     def quit(self) -> None:
-        self.frame()
+        self.frame(action=False)
+        print("\x1b[?25h") # show cursor 
         self.exit = input('Do you want to quit (y/N): ')
         match self.exit:
             case 'y':
                 sys.exit()
             case 'N':
-                self.frame()
+                self.frame(action=False)
             case _:
-                self.frame()
+                self.frame(action=False)
                 self.quit()
