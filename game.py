@@ -84,7 +84,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x-1][y] != Board().tiles['empty']:
+        if self.board[x-1][y] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -98,7 +98,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x][y-1] != Board().tiles['empty']:
+        if self.board[x][y-1] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -112,7 +112,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x+1][y] != Board().tiles['empty']:
+        if self.board[x+1][y] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -126,7 +126,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x][y+1] != Board().tiles['empty']:
+        if self.board[x][y+1] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -140,7 +140,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x-1][y-1] != Board().tiles['empty']:
+        if self.board[x-1][y-1] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -154,7 +154,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x-1][y+1] != Board().tiles['empty']:
+        if self.board[x-1][y+1] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -168,7 +168,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x+1][y-1] != Board().tiles['empty']:
+        if self.board[x+1][y-1] == Board().tiles['wall']:
             self.fail()
             return
         
@@ -182,7 +182,7 @@ class Game:
         coor = [coor for coor in self.board if self.player in coor][0]
         x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board[x+1][y+1] != Board().tiles['empty']:
+        if self.board[x+1][y+1] == Board().tiles['wall']:
             self.fail()
             return
         
