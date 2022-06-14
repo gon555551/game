@@ -7,16 +7,15 @@ import sys
 class Game:
     """the game"""
     
-    board: Board
+    board: list[list]
     player: Player
     
     def __init__(self) -> None:
         self.player = Player()
-        
-        self.board = Board()
+        self.board = starting_board
         self.frame()
         
-        self.board.board[4][4] = self.player
+        self.board[4][4] = self.player
         self.frame()
         
         self.process()
@@ -53,10 +52,10 @@ class Game:
         line = ''
         for a in range(10):
             for b in range(10):
-                if self.board.board[a][b] == self.player:
+                if self.board[a][b] == self.player:
                     line += repr(self.player)
                 else:
-                    line += self.board.board[a][b]
+                    line += self.board[a][b]
             line += '\n'
         print(line)
     
@@ -65,121 +64,121 @@ class Game:
     #
     # go up
     def goup(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x-1][y] != self.board.tiles['empty']:
+        if self.board[x-1][y] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x-1][y] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x-1][y] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
     # go left
     def goleft(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x][y-1] != self.board.tiles['empty']:
+        if self.board[x][y-1] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x][y-1] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x][y-1] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
     # go down
     def godown(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x+1][y] != self.board.tiles['empty']:
+        if self.board[x+1][y] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x+1][y] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x+1][y] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
     # go right
     def goright(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x][y+1] != self.board.tiles['empty']:
+        if self.board[x][y+1] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x][y+1] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x][y+1] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
     # go up and left
     def goupleft(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x-1][y-1] != self.board.tiles['empty']:
+        if self.board[x-1][y-1] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x-1][y-1] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x-1][y-1] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
     # go up right
     def goupright(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x-1][y+1] != self.board.tiles['empty']:
+        if self.board[x-1][y+1] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x-1][y+1] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x-1][y+1] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
         
     # go down and left
     def godownleft(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x+1][y-1] != self.board.tiles['empty']:
+        if self.board[x+1][y-1] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x+1][y-1] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x+1][y-1] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
     # go down right
     def godownright(self) -> None:
-        coor = [coor for coor in self.board.board if self.player in coor][0]
-        x, y = self.board.board.index(coor), coor.index(self.player)
+        coor = [coor for coor in self.board if self.player in coor][0]
+        x, y = self.board.index(coor), coor.index(self.player)
         
-        if self.board.board[x+1][y+1] != self.board.tiles['empty']:
+        if self.board[x+1][y+1] != tiles['empty']:
             self.frame()
             print('Can\'t move there!')
             return
         
-        self.board.board[x+1][y+1] = self.player
-        self.board.board[x][y] = self.board.tiles['empty']
+        self.board[x+1][y+1] = self.player
+        self.board[x][y] = tiles['empty']
         
         self.frame()
     
