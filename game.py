@@ -1,5 +1,5 @@
-from board import *
-from player import *
+from data.board import *
+from data.player import *
 from os import system
 import keyboard
 import sys
@@ -11,24 +11,41 @@ class Game:
     player: Player
     
     def __init__(self) -> None:
-        self.exit = None
         self.player = Player()
         
-        self.start()
-        self.process()
-    
-    
-    # THINGS START HERE
-    # 
-    # start and place the player at (4, 4)
-    def start(self) -> None:
         self.board = Board()
         self.frame()
         
-        self.player.name = input('What\'s your name? ')
-        
         self.board.board[4][4] = self.player
         self.frame()
+        
+        self.process()
+    
+    
+    # command processor
+    def process(self) -> None:
+        # commands
+        while True:
+            event = keyboard.read_event()
+            match event.name + event.event_type:
+                case 'wdown':
+                    self.goup()
+                case 'adown':
+                    self.goleft()
+                case 'xdown':
+                    self.godown()
+                case 'ddown':
+                    self.goright()
+                case 'qdown':
+                    self.goupleft()
+                case 'edown':
+                    self.goupright()
+                case 'zdown':
+                    self.godownleft()
+                case 'cdown':
+                    self.godownright()
+                case 'escdown':
+                    self.quit()
     
     # load a new frame
     def frame(self) -> None:
@@ -43,6 +60,9 @@ class Game:
             line += '\n'
         print(line)
     
+    
+    # command methods
+    #
     # go up
     def goup(self) -> None:
         coor = [coor for coor in self.board.board if self.player in coor][0]
@@ -174,28 +194,3 @@ class Game:
             case _:
                 self.frame()
                 self.quit()
-
-    def process(self) -> None:
-        # commands
-        while True:
-            event = keyboard.read_event()
-            match event.name + event.event_type:
-                case 'wdown':
-                    self.goup()
-                case 'adown':
-                    self.goleft()
-                case 'xdown':
-                    self.godown()
-                case 'ddown':
-                    self.goright()
-                case 'qdown':
-                    self.goupleft()
-                case 'edown':
-                    self.goupright()
-                case 'zdown':
-                    self.godownleft()
-                case 'cdown':
-                    self.godownright()
-                case 'escdown':
-                    self.quit()
-    
