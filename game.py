@@ -7,21 +7,19 @@ import sys
 class Game:
     """the game"""
     
-    board: list[list]
     player: Player
     actionCount: int
-    stage: int
+    stage: int = 1
+    board = Board().board
     
     def __init__(self) -> None:
         self.actionCount = 0
-        self.stage = 2
         
         self.player = Player()
-        self.board = Board().board[self.stage]
         
         self.frame(action=False)
         
-        self.board[4][4] = self.player
+        self.board[self.stage][4][4] = self.player
         self.frame(action=False)
         
         self.process()
@@ -33,10 +31,10 @@ class Game:
         line = ''
         for a in range(10):
             for b in range(10):
-                if self.board[a][b] == self.player:
+                if self.board[self.stage][a][b] == self.player:
                     line += repr(self.player)
                 else:
-                    line += self.board[a][b]
+                    line += self.board[self.stage][a][b]
             line += '\n'
         print(line[:-1])
         
@@ -44,9 +42,12 @@ class Game:
             self.actionCount += 1
         print('Action Count:', self.actionCount)
         
-        print(Board().board[self.stage])
+    # change stages
+    def stager(self, stage: int):
+        x, y = self.coords()
+        self.stage = stage
+        self.board[self.stage][x][y] = self.player
     
-
     # command processor
     def process(self) -> None:
         # commands
@@ -74,128 +75,127 @@ class Game:
     
     # failed to move
     def fail(self) -> None:
+        self.stager(int(input('stage')))
         self.frame(action=False)
         print('Can\'t move there!')
+        
+    # get coords
+    def coords(self) -> tuple:
+        coor = [coor for coor in self.board[self.stage] if self.player in coor][0]
+        x, y = self.board[self.stage].index(coor), coor.index(self.player)
+        return x, y
     
     # command methods
     #
     # go up
     def goup(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        self.board[self.stage]
+        x, y = self.coords()
         
-        if self.board[x-1][y] == Board().tiles['wall']:
+        if self.board[self.stage][x-1][y] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x-1][y] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x-1][y] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # go left
     def goleft(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x][y-1] == Board().tiles['wall']:
+        if self.board[self.stage][x][y-1] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x][y-1] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x][y-1] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # go down
     def godown(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x+1][y] == Board().tiles['wall']:
+        if self.board[self.stage][x+1][y] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x+1][y] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x+1][y] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # go right
     def goright(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x][y+1] == Board().tiles['wall']:
+        if self.board[self.stage][x][y+1] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x][y+1] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x][y+1] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # go up and left
     def goupleft(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x-1][y-1] == Board().tiles['wall']:
+        if self.board[self.stage][x-1][y-1] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x-1][y-1] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x-1][y-1] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # go up right
     def goupright(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x-1][y+1] == Board().tiles['wall']:
+        if self.board[self.stage][x-1][y+1] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x-1][y+1] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x-1][y+1] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
         
     # go down and left
     def godownleft(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x+1][y-1] == Board().tiles['wall']:
+        if self.board[self.stage][x+1][y-1] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x+1][y-1] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x+1][y-1] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # go down right
     def godownright(self) -> None:
-        coor = [coor for coor in self.board if self.player in coor][0]
-        x, y = self.board.index(coor), coor.index(self.player)
+        x, y = self.coords()
         
-        if self.board[x+1][y+1] == Board().tiles['wall']:
+        if self.board[self.stage][x+1][y+1] == Board().tiles['wall']:
             self.fail()
             return
         
-        self.board[x+1][y+1] = self.player
-        self.board[x][y] = Board().board[self.stage][x][y]
+        self.board[self.stage][x+1][y+1] = self.player
+        self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
     
     # quitter
     def quit(self) -> None:
-        self.frame(action=False)
-        print("\x1b[?25h") # show cursor 
-        self.exit = input('Do you want to quit (y/N): ')
+        self.frame(action=False) 
+        self.exit = input('\x1b[?25hDo you want to quit (y/N): ')
         match self.exit:
             case 'y':
                 sys.exit()
