@@ -9,7 +9,7 @@ class Game:
     
     player: Player
     actionCount: int
-    stage: int = 1
+    stage: float = 1.0
     board = Board().board
     
     def __init__(self) -> None:
@@ -39,7 +39,7 @@ class Game:
         print(line[:-1])
         
         if action:
-            self.actionCount += 1
+            self.actionCount += 0.5
         print('Action Count:', self.actionCount)
         
     # change stages
