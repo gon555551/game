@@ -15,7 +15,7 @@ class Game:
     def __init__(self) -> None:
         self.actionCount = 0
         
-        self.player = Player()
+        self.player = Player(4, 4)
         
         self.frame(action=False)
         

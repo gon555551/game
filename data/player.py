@@ -1,10 +1,11 @@
+import dataclasses
+
+@dataclasses.dataclass
 class Player:
     """the player"""
     
-    icon: str
-    
-    def __init__(self) -> None:
-        self.icon = '@'
+    x: int
+    y: int
 
     def __repr__(self) -> str:
         return '@'
