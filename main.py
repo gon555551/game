@@ -174,15 +174,13 @@ class Game:
     # quitter
     def quit(self) -> None:
         self.frame(action=False) 
-        self.exit = input('\x1b[?25hDo you want to quit (y/N): ')
-        match self.exit:
-            case 'y':
-                sys.exit()
-            case 'N':
-                self.frame(action=False)
-            case _:
-                self.frame(action=False)
-                self.quit()
+        print('Press ESC to exit.')
+        keyboard.read_event()
+        event = keyboard.read_event()
+        if event.name == 'esc':
+            sys.exit()
+        else:
+            self.frame(action=False)
 
 
 if __name__ == '__main__':
