@@ -18,10 +18,10 @@ class Game:
 
     attime: str
     ground: list
+    player: Player
     
     # defaults
     message: Message = Message(['' for _ in range(4)])
-    player: Player = Player()
     actionCount: int = 0
     stage: float = 1.0
     board = Board().board
@@ -36,7 +36,8 @@ class Game:
         self.ground = items.itemize()
         
         # starting screen
-        landing_info = Lander()
+        startinfo = Lander()
+        self.player = Player(startinfo.name, startinfo.species, startinfo.background)
         
         # update screen
         self._frame(action=False)

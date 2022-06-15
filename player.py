@@ -15,8 +15,10 @@ class Player:
     protection: float
     
     name: str
+    species: str
+    background: str
     
-    def __init__(self) -> None:
+    def __init__(self, name: str = '', species: str = '', background: str = '') -> None:
         self.x = 10
         self.y = 10
         self.inventory = []
@@ -24,7 +26,9 @@ class Player:
         self.damage = 0
         self.protection = 0
         
-        self.name = None
+        self.name = name
+        self.species = species
+        self.background = background
 
     def __repr__(self) -> str:
         return '@'
