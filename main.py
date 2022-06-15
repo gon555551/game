@@ -40,8 +40,8 @@ class Game:
         line = f'Action Count: {self.actionCount}\n'
         
         # board
-        for a in range(len(self.board[self.stage])):
-            for b in range(len(self.board[self.stage][0])):
+        for a in range(self.player.x-5, self.player.x+5):
+            for b in range(self.player.y-5, self.player.y+5):
                 # if it's the player, print the player
                 if (a, b) == (self.player.x, self.player.y):
                     line += repr(self.player)
