@@ -119,7 +119,10 @@ Background: {self.background}{self.line_background}"""
                         continue
     
     def goOn(self) -> bool:
-        print('\nPress ENTER to continue... ')
+        
+        print(f"""
+You are {self.name}, the {self.species} {self.background}.
+Press ENTER to continue... """)
         
         # event buffer
         keyboard.read_event()

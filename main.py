@@ -35,8 +35,8 @@ class Game:
         # get item layout
         self.ground = items.itemize()
         
-        # # starting screen
-        # self.player.name = start()
+        # starting screen
+        landing_info = Lander()
         
         # update screen
         self._frame(action=False)
