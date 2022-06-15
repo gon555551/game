@@ -1,6 +1,10 @@
 import dataclasses
 import items
 
+"""
+The player class, and in the future, the subclasses.
+"""
+
 @dataclasses.dataclass
 class Player:
     """the player"""

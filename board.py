@@ -1,6 +1,9 @@
 import dataclasses
-import items
 import random
+
+"""
+Boards and a few other important sets of information, like tile codes and stair coordinates.
+"""
 
 @dataclasses.dataclass
 class Board:

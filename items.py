@@ -1,5 +1,9 @@
 import board
 
+"""
+The item classes and methods, as well as the itemize function.
+"""
+
 class Item:
     """the items"""
     
