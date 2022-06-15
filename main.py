@@ -359,7 +359,7 @@ class Game:
                             i.x, i.y, i.k = self.player.x, self.player.y, self.stage
                             self.ground.remove(i)
                             self.player.inventory.append(i)
-                            self.message.roll(f'{self.attime}Grabbed {i.name}!')
+                            self.message.roll(f'{self.attime}Grabbed {i.type} {i.name}!')
                             self._frame()
                             break
                         
@@ -413,7 +413,7 @@ class Game:
                     i.x, i.y, i.k = self.player.x, self.player.y, self.stage
                     self.ground.append(i)
                     self.player.inventory.remove(i)
-                    self.message.roll(f'{self.attime}Left {i.name}!')
+                    self.message.roll(f'{self.attime}Left {i.type} {i.name}!')
                     self._frame()
                     break
                 
