@@ -11,17 +11,18 @@ class Game:
     
     message: Message
     player: Player
-    actionCount: int
     attime: str
+    
+    # defaults
+    actionCount: int = 0
     stage: float = 1.0
     board = Board().board
     
-    # initializes with hidden cursor, actioncount at 0, player at (4, 4)
+    # initializes with hidden cursor, player at (4, 4)
     def __init__(self) -> None:
         print("\x1b[?25l") # hide cursor
-        self.actionCount = 0
         
-        self.player = Player(4, 5)
+        self.player = Player(10, 10)
         self.message = Message(['' for _ in range(4)])
         
         # update screen
