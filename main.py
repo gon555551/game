@@ -1,4 +1,3 @@
-from xmlrpc.client import Boolean
 from messager import *
 from player import *
 from board import *
@@ -409,13 +408,13 @@ class Game:
             self._frame(action=False)
 
     # empty inventory
-    def isempty(self) -> Boolean:
+    def isempty(self) -> bool:
         if self.player.inventory == []:
             return True
         return False
     
     # full inventory
-    def isfull(self) -> Boolean:
+    def isfull(self) -> bool:
         if len(self.player.inventory) == 10:
             return True
         return False
