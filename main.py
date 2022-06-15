@@ -13,6 +13,7 @@ class Game:
     board = Board().board
     
     def __init__(self) -> None:
+        print("\x1b[?25l") # hide cursor
         self.actionCount = 0
         
         self.player = Player(4, 4)
@@ -22,7 +23,6 @@ class Game:
     
     # load a new frame
     def frame(self, action: bool = True, timer: float = 0.5, flip: tuple = (0, 0)) -> None:
-        print("\x1b[?25l") # hide cursor
         system('cls')
         line = ''
         for a in range(10):
