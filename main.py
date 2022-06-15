@@ -1,4 +1,3 @@
-from turtle import update
 from xmlrpc.client import Boolean
 from messager import *
 from player import *
