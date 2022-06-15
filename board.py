@@ -72,8 +72,10 @@ class Board:
             1: (14, 13),
             2: (14, 12)
         }
-        
-        self.generate()
+        #
+        #
+        # GENERATE BOARDS
+        self.generate(5)
 
     def buffer(self) -> None:
         for k in self.board.keys():
@@ -112,22 +114,26 @@ class Board:
             if self.board[stage][x][y] == self.tiles['empty']:
                 return (x, y)
     
-    def generate(self) -> None:
-        self.board[4] = []
-        x = random.choice(range(10, 30))
-        y = random.choice(range(10, 30))
-        for a in range(y):
-            line = []
-            for b in range(x):
-                line.append(random.choice([self.tiles['wall'], self.tiles['empty'], self.tiles['empty']]))
-            self.board[4].append(line)
+    def generate(self, num: int) -> None:
+        for i in range(num):
+            u = i+4
+            self.board[u] = []
+            x = random.choice(range(10, 30))
+            y = random.choice(range(10, 30))
+            for a in range(y):
+                line = []
+                for b in range(x):
+                    line.append(random.choice([self.tiles['wall'], self.tiles['empty'], self.tiles['empty']]))
+                self.board[u].append(line)
         
         self.buffer()
         
-        down = self.getempty_s(4)
-        self.transdown[4] = down
-        up_3 = self.getempty_s(3)
-        self.transup[3] = up_3
-        self.board[4][down[0]][down[1]] = self.tiles['up']
-        self.board[3][up_3[0]][up_3[1]] = self.tiles['down']
+        for i in range(num):
+            u = i+4
+            down = self.getempty_s(u)
+            self.transdown[u] = down
+            up_3 = self.getempty_s(u-1)
+            self.transup[u-1] = up_3
+            self.board[u][down[0]][down[1]] = self.tiles['up']
+            self.board[u-1][up_3[0]][up_3[1]] = self.tiles['down']
         
