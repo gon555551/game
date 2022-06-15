@@ -125,6 +125,9 @@ class Game:
                     
                 case 'gdown':
                     self.grab()
+                    
+                case 'idown':
+                    self.listinv()
                 
                 case 'escdown':
                     self.quit()
@@ -245,6 +248,21 @@ class Game:
                 return
         self.message.roll(f'{self.attime}No item here!')
         self._frame(action=False) 
+        
+    # list inventory
+    def listinv(self) -> None:
+        if self.player.inventory == []:
+            self.message.roll(f'{self.attime}You\'re not holding anything!')
+            self._frame(action=False)
+            return
+        
+        mess = ''
+        for i in self.player.inventory:
+            mess += f'{i.type} {i.name}, '
+        mess = mess[:-2]
+        
+        self.message.roll(f'{self.attime}{mess}')
+        self._frame(action=False)
         
     # rest once
     def restonce(self) -> None:
