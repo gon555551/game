@@ -1,5 +1,5 @@
-from data.player import *
-from data.board import *
+from player import *
+from board import *
 from os import system
 import keyboard
 import sys
