@@ -3,6 +3,7 @@ from player import *
 from board import *
 from os import system
 import keyboard
+import datetime
 import sys
 
 class Game:
@@ -11,6 +12,7 @@ class Game:
     message: Message
     player: Player
     actionCount: int
+    attime: str
     stage: float = 1.0
     board = Board().board
     
@@ -52,8 +54,7 @@ class Game:
         
         # get message lines
         for item in self.message.lines:
-            line += item
-            line += '\n'
+            line += f'{item}\n'
         
         # display
         print(line[:-1])
@@ -63,6 +64,8 @@ class Game:
     def process(self) -> None:
         # command loop
         while True:
+            # time setter
+            self.attime = f'{datetime.datetime.now().strftime("%H:%M:%S")}: '
             # event reader
             event = keyboard.read_event()
             # event matcher
@@ -106,7 +109,7 @@ class Game:
     
     # failed to move, reload frame and inform
     def fail(self) -> None:
-        self.message.roll('You can\'t move there!')
+        self.message.roll(f'{self.attime}You can\'t move there!')
         self._frame(action=False)
     
     # command methods
@@ -196,7 +199,7 @@ class Game:
             self._frame()
             return
         # otherwise, fails
-        self.message.roll('Can\'t go down here!')
+        self.message.roll(f'{self.attime}Can\'t go down here!')
         self._frame(action=False)
         
     # up stairs
@@ -206,7 +209,7 @@ class Game:
             self.player.x, self.player.y = Board().transup[self.stage]
             self._frame()
             return
-        self.message.roll('Can\'t go up here!')
+        self.message.roll(f'{self.attime}Can\'t go up here!')
         self._frame(action=False) 
         
     # rest once
@@ -217,7 +220,7 @@ class Game:
     # quitter
     def quit(self) -> None:
         # reloads
-        self.message.roll('Press ESC to exit. ')
+        self.message.roll(f'{self.attime}Press ESC to exit. ')
         self._frame(action=False) 
         
         # event buffer
