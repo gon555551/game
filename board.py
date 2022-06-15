@@ -114,12 +114,12 @@ class Board:
     
     def generate(self) -> None:
         self.board[4] = []
-        x = random.choice(range(8, 10))
-        y = random.choice(range(8, 10))
+        x = random.choice(range(10, 30))
+        y = random.choice(range(10, 30))
         for a in range(y):
             line = []
             for b in range(x):
-                line.append(random.choice([self.tiles['wall'], self.tiles['empty']]))
+                line.append(random.choice([self.tiles['wall'], self.tiles['empty'], self.tiles['empty']]))
             self.board[4].append(line)
         
         self.buffer()

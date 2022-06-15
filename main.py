@@ -469,11 +469,11 @@ class Game:
         
         if line == '':
             self.message.roll('There\'s nothing here!')
-            self._frame()
+            self._frame(action=False)
         else:
             line = 'You see here: ' + line[:-2]
             self.message.roll(line)
-            self._frame()
+            self._frame(action=False)
     #
     #
     #
