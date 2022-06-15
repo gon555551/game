@@ -56,7 +56,8 @@ class Board:
             'down': '<',
             'up': '>', 
             'sword': 'S',
-            'shield': 'H'
+            'shield': 'H',
+            'many': '='
         } 
         
         self.transdown = {

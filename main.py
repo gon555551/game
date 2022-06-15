@@ -1,3 +1,4 @@
+from turtle import update
 from xmlrpc.client import Boolean
 from messager import *
 from player import *
@@ -56,10 +57,18 @@ class Game:
                 
                 # show item over empty
                 if done is False:
+                    here = []
                     for i in self.ground:
-                        if (a, b) == (i.x, i.y) and self.stage == i.k:
-                            line += repr(i)
-                            done = True
+                        if (a, b, self.stage) == (i.x, i.y, i.k):
+                            here.append(i)
+                    if len(here) > 1:
+                        line += Board().tiles['many']
+                        done = True
+                    elif len(here) == 1:
+                        line += repr(here[0])
+                        done = True
+                    else:
+                        pass
                         
                 # otherwise, show empty
                 if done is False:
@@ -248,15 +257,65 @@ class Game:
             self._frame(action=False)
             return 
         
+        here = []
         for i in self.ground:
             if (self.player.x, self.player.y, self.stage) == (i.x, i.y, i.k):
+                here.append(i)
+                
+        match len(here):
+            case 0:
+                self.message.roll(f'{self.attime}No item here!')
+                self._frame(action=False)
+                return
+            case 1:
+                i = here[0]
                 self.ground.remove(i)
                 self.player.inventory.append(i)
                 self.message.roll(f'{self.attime}Grabbed {i.name}')
                 self._frame()
                 return
-        self.message.roll(f'{self.attime}No item here!')
-        self._frame(action=False)
+            case _:
+                selector = 0
+                self.message.roll(f'{self.attime}What item to grab?')
+                
+                def updateline():
+                    line = ''
+                    for i in here:
+                        if here.index(i) == selector:
+                            line += f'\n> {i.type:10} {i.name:10} <'
+                        else:
+                            line += f'\n  {i.type:10} {i.name:10}  '
+                    self._frame(action=False)
+                    print(line)
+                
+                updateline()
+                while True:
+                    event = keyboard.read_event()
+                    match event.name + event.event_type:
+                        
+                        case '.down':
+                            if selector == len(here)-1:
+                                selector = 0
+                            else:
+                                selector += 1
+                            updateline()
+                            
+                        case 'enterdown':
+                            i = here[selector]
+                            i.x, i.y, i.k = self.player.x, self.player.y, self.stage
+                            self.ground.remove(i)
+                            self.player.inventory.append(i)
+                            self.message.roll(f'{self.attime}Grabbed {i.name}!')
+                            self._frame()
+                            break
+                        
+                        case 'escdown':
+                            self._frame(action=False)
+                            break
+                        
+                        case _:
+                            pass
+                
         
     # leave item
     def leaveitem(self) -> None:
