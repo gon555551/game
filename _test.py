@@ -1,7 +1,5 @@
-keys = {
-    1: 'a',
-    2: 'b'
-}
+import board
 
-for k in keys.keys():
-    print(keys[k])
+board = board.Board()
+
+board.get_empty()

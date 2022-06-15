@@ -1,6 +1,7 @@
 from messager import *
 from player import *
 from board import *
+from items import *
 from os import system
 import keyboard
 import datetime
@@ -8,22 +9,24 @@ import sys
 
 class Game:
     """the game class, includes commands and command processor"""
-    
-    message: Message
-    player: Player
+
     attime: str
+    ground: list
     
     # defaults
+    message: Message = Message(['' for _ in range(4)])
+    player: Player = Player()
     actionCount: int = 0
     stage: float = 1.0
     board = Board().board
     
     # initializes with hidden cursor, player at (4, 4)
     def __init__(self) -> None:
-        print("\x1b[?25l") # hide cursor
+        # hide cursor
+        print("\x1b[?25l") 
         
-        self.player = Player(10, 10)
-        self.message = Message(['' for _ in range(4)])
+        # get item layout
+        self.ground = items.itemize()
         
         # update screen
         self._frame(action=False)
@@ -42,11 +45,25 @@ class Game:
         # visual window fo 10x10
         for a in range(self.player.x-5, self.player.x+5):
             for b in range(self.player.y-5, self.player.y+5):
-                # if it's the player, print the player
+                # done checker
+                done = False
+                
+                # show player over anything
                 if (a, b) == (self.player.x, self.player.y):
-                    line += repr(self.player)
-                else:
+                        line += repr(self.player)
+                        done = True
+                
+                # show item over empty
+                if done is False:
+                    for i in self.ground:
+                        if (a, b) == (i.x, i.y) and self.stage == i.k:
+                            line += repr(i)
+                            done = True
+                        
+                # otherwise, show empty
+                if done is False:
                     line += self.board[self.stage][a][b]
+                        
             line += '\n'
         
         # if the action tag is active, add action
@@ -105,6 +122,9 @@ class Game:
                 
                 case 'sdown':
                     self.restonce()
+                    
+                case 'gdown':
+                    self.grab()
                 
                 case 'escdown':
                     self.quit()
@@ -212,6 +232,18 @@ class Game:
             self._frame()
             return
         self.message.roll(f'{self.attime}Can\'t go up here!')
+        self._frame(action=False) 
+        
+    # grab item
+    def grab(self) -> None:
+        for i in self.ground:
+            if (self.player.x, self.player.y, self.stage) == (i.x, i.y, i.k):
+                self.ground.remove(i)
+                self.player.inventory.append(i)
+                self.message.roll(f'{self.attime}Grabbed {i.name}')
+                self._frame()
+                return
+        self.message.roll(f'{self.attime}No item here!')
         self._frame(action=False) 
         
     # rest once

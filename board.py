@@ -1,5 +1,6 @@
 import dataclasses
-import time
+import items
+import random
 
 @dataclasses.dataclass
 class Board:
@@ -53,7 +54,9 @@ class Board:
             'wall': '#',
             'empty': '.',
             'down': '<',
-            'up': '>'
+            'up': '>', 
+            'sword': 'S',
+            'shield': 'H'
         } 
         
         self.transdown = {
@@ -80,3 +83,20 @@ class Board:
             for i in range(len(self.board[k])):
                 buff1.append(self.board[k][i])
             self.board[k] = buff1
+    
+    def get_empty(self, num: int) -> tuple:
+        result = []
+        for _ in range(num):
+            k = random.choice(list(self.board.keys()))
+            ok = False
+            while not ok:
+                y = random.choice(range(len(self.board[k][0])))
+                x = random.choice(range(len(self.board[k])))
+                if [k, x, y] in result:
+                    break
+                if self.board[k][x][y] == self.tiles['empty']:
+                    ok = True
+                    
+            result.append([k, x, y])
+        
+        return result
