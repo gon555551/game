@@ -22,7 +22,7 @@ class Game:
         self.process()
     
     # load a new frame
-    def frame(self, action: bool = True, timer: float = 0.5, flip: tuple = (0, 0)) -> None:
+    def frame(self, action: bool = True, timer: float = 0.5) -> None:
         system('cls')
         line = ''
         for a in range(10):
