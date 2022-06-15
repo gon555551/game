@@ -1,3 +1,4 @@
+from messager import *
 from player import *
 from board import *
 from os import system
@@ -7,6 +8,7 @@ import sys
 class Game:
     """the game class, includes commands and command processor"""
     
+    message: Message
     player: Player
     actionCount: int
     stage: float = 1.0
@@ -18,6 +20,7 @@ class Game:
         self.actionCount = 0
         
         self.player = Player(4, 4)
+        self.message = Message(['' for _ in range(4)])
         
         # update screen
         self._frame(action=False)
@@ -30,8 +33,10 @@ class Game:
         # clear
         system('cls')
         
-        # gets the full screen before printing
-        line = ''
+        # the line and action count
+        line = f'Action Count: {self.actionCount}\n'
+        
+        # board
         for a in range(10):
             for b in range(10):
                 # if it's the player, print the player
@@ -40,16 +45,18 @@ class Game:
                 else:
                     line += self.board[self.stage][a][b]
             line += '\n'
-            
-        # remove last \n
-        print(line[:-1])
         
         # if the action tag is active, add action
         if action:
             self.actionCount += timer
-            
-        # display action dount
-        print('Action Count:', self.actionCount)
+        
+        # get message lines
+        for item in self.message.lines:
+            line += item
+            line += '\n'
+        
+        # display
+        print(line[:-1])
 
     
     # command processor loop method
@@ -99,8 +106,8 @@ class Game:
     
     # failed to move, reload frame and inform
     def fail(self) -> None:
+        self.message.roll('You can\'t move there!')
         self._frame(action=False)
-        print('Can\'t move there!')
     
     # command methods
     #
@@ -188,8 +195,8 @@ class Game:
             self._frame()
             return
         # otherwise, fails
+        self.message.roll('Can\'t go down here!')
         self._frame(action=False)
-        print('Can\'t go down here!')
         
     # up stairs
     def climbup(self) -> None:
@@ -197,8 +204,8 @@ class Game:
             self.stage -= 1
             self._frame()
             return
-        self._frame(action=False)
-        print('Can\'t go up here!')    
+        self.message.roll('Can\'t go up here!')
+        self._frame(action=False) 
         
     # rest once
     def restonce(self) -> None:
@@ -208,9 +215,8 @@ class Game:
     # quitter
     def quit(self) -> None:
         # reloads
+        self.message.roll('Press ESC to exit. ')
         self._frame(action=False) 
-        
-        print('Press ESC to exit.')
         
         # event buffer
         keyboard.read_event()
@@ -220,6 +226,7 @@ class Game:
         if event.name == 'esc':
             sys.exit()
         else:
+            self.message.lines[-1] += 'Resuming...'
             self._frame(action=False)
 
 
