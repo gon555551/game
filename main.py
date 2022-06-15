@@ -25,13 +25,16 @@ class Game:
         self.process()
     
     # load a new frame
-    def frame(self, action: bool = True, timer: float = 0.5) -> None:
+    def frame(self, action: bool = True, timer: float = 0.5, flip: tuple = (0, 0)) -> None:
         print("\x1b[?25l") # hide cursor
         system('cls')
         line = ''
         for a in range(10):
             for b in range(10):
-                if self.board[self.stage][a][b] == self.player:
+                if flip != (0, 0) and (a, b) == flip:
+                    self.board[self.stage][a][b] = self.player
+                    line += repr(self.player)
+                elif self.board[self.stage][a][b] == self.player:
                     line += repr(self.player)
                 else:
                     line += self.board[self.stage][a][b]
@@ -70,6 +73,10 @@ class Game:
                     self.godownleft()
                 case 'cdown':
                     self.godownright()
+                case '<down':
+                    self.climbdown()
+                case '>down':
+                    self.climbup()
                 case 'sdown':
                     self.restonce()
                 case 'escdown':
@@ -192,6 +199,26 @@ class Game:
         self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
+        
+    # down stairs
+    def climbdown(self) -> None:
+        x, y = self.coords()
+        if Board().board[self.stage][x][y] == Board().tiles['down']:
+            self.stage += 1
+            self.frame(flip=(x, y))
+            return
+        self.frame(action=False)
+        print('Can\'t go down here!')
+        
+    # up stairs
+    def climbup(self) -> None:
+        x, y = self.coords()
+        if Board().board[self.stage][x][y] == Board().tiles['up']:
+            self.stage -= 1
+            self.frame(flip=(x, y))
+            return
+        self.frame(action=False)
+        print('Can\'t go up here!')    
         
     # rest once
     def restonce(self) -> None:
