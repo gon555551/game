@@ -19,7 +19,8 @@ class Game:
     actionCount: int = 0
     stage: float = 1.0
     board = Board().board
-    
+    #
+    #
     # initializes with hidden cursor, player at (4, 4)
     def __init__(self) -> None:
         # hide cursor
@@ -33,7 +34,8 @@ class Game:
         
         # start
         self.process()
-    
+    #
+    #
     # loads a new frame, very important
     def _frame(self, action: bool = True, timer: float = 0.5) -> None:
         # clear
@@ -84,9 +86,17 @@ class Game:
         
         # display
         print(line[:-1])
-
-    
-    # command processor loop method
+    #
+    #
+    #
+    #
+    #
+    # HERE IS THE COMMAND PROCESSOR LOOP METHOD   
+    # processes keyboard input on a loop
+    # 
+    # checks on a while True, doesn't return
+    #
+    #
     def process(self) -> None:
         # command loop
         while True:
@@ -142,13 +152,34 @@ class Game:
                 
                 case 'escdown':
                     self.quit()
-    
+    #
+    #
+    #
+    # LOOP PROCESSOR ENDED
+    # after here are several important methods dealing with keyboard inputs
+    #
     # failed to move, reload frame and inform
     def fail(self) -> None:
         self.message.roll(f'{self.attime}You can\'t move there!')
         self._frame(action=False)
-    
-    # command methods
+    #
+    #
+    # checks if there's an empty inventory
+    def isempty(self) -> bool:
+        if self.player.inventory == []:
+            return True
+        return False
+    #
+    #
+    # checks if there's a full inventory
+    def isfull(self) -> bool:
+        if len(self.player.inventory) == 10:
+            return True
+        return False
+    #
+    #
+    #
+    # command methods follow, they're called by the processor method
     #
     # go up
     def goup(self) -> None:
@@ -161,7 +192,8 @@ class Game:
         self.player.x, self.player.y = self.player.x-1, self.player.y  
         # reloads frame      
         self._frame()
-    
+    #
+    #
     # go left
     def goleft(self) -> None:
         if self.board[self.stage][self.player.x][self.player.y-1] == Board().tiles['wall']:
@@ -170,7 +202,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x, self.player.y-1        
         self._frame()
-    
+    #
+    #
     # go down
     def godown(self) -> None:
         if self.board[self.stage][self.player.x+1][self.player.y] == Board().tiles['wall']:
@@ -179,7 +212,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x+1, self.player.y        
         self._frame()
-    
+    #
+    #
     # go right
     def goright(self) -> None:
         if self.board[self.stage][self.player.x][self.player.y+1] == Board().tiles['wall']:
@@ -188,7 +222,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x, self.player.y+1        
         self._frame()
-    
+    #
+    #
     # go up left
     def goupleft(self) -> None:
         if self.board[self.stage][self.player.x-1][self.player.y-1] == Board().tiles['wall']:
@@ -197,7 +232,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x-1, self.player.y-1       
         self._frame()
-    
+    #
+    #
     # go up right
     def goupright(self) -> None:
         if self.board[self.stage][self.player.x-1][self.player.y+1] == Board().tiles['wall']:
@@ -206,7 +242,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x-1, self.player.y+1      
         self._frame()
-        
+    #
+    #
     # go down left
     def godownleft(self) -> None:
         if self.board[self.stage][self.player.x+1][self.player.y-1] == Board().tiles['wall']:
@@ -215,7 +252,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x+1, self.player.y-1        
         self._frame()
-    
+    #
+    #
     # go down right
     def godownright(self) -> None:
         if self.board[self.stage][self.player.x+1][self.player.y+1] == Board().tiles['wall']:
@@ -224,7 +262,8 @@ class Game:
         
         self.player.x, self.player.y = self.player.x+1, self.player.y+1      
         self._frame()
-        
+    #
+    #
     # down stairs
     def climbdown(self) -> None:
         # checks if there's stairs going down
@@ -237,7 +276,8 @@ class Game:
         # otherwise, fails
         self.message.roll(f'{self.attime}Can\'t go down here!')
         self._frame(action=False)
-        
+    #
+    #
     # up stairs
     def climbup(self) -> None:
         if Board().board[self.stage][self.player.x][self.player.y] == Board().tiles['up']:
@@ -247,7 +287,8 @@ class Game:
             return
         self.message.roll(f'{self.attime}Can\'t go up here!')
         self._frame(action=False) 
-        
+    #
+    #
     # grab item
     def grab(self) -> None:
         if self.isfull():
@@ -313,8 +354,8 @@ class Game:
                         
                         case _:
                             pass
-                
-        
+    #
+    #
     # leave item
     def leaveitem(self) -> None:
         if self.isempty():
@@ -367,8 +408,8 @@ class Game:
                 
                 case _:
                     pass
-                
-        
+    #
+    #
     # list inventory
     def listinv(self) -> None:
         if self.isempty():
@@ -383,12 +424,17 @@ class Game:
         
         self.message.roll(f'{self.attime}{mess}')
         self._frame(action=False)
-        
+    #
+    #
     # rest once
     def restonce(self) -> None:
         # reloads taking 1 turn
         self._frame(timer=1)
-    
+    #
+    #
+    #
+    # the quitter quits the program
+    #
     # quitter
     def quit(self) -> None:
         # reloads
@@ -407,17 +453,6 @@ class Game:
             self.message.lines[-1] += 'Resuming...'
             self._frame(action=False)
 
-    # empty inventory
-    def isempty(self) -> bool:
-        if self.player.inventory == []:
-            return True
-        return False
-    
-    # full inventory
-    def isfull(self) -> bool:
-        if len(self.player.inventory) == 10:
-            return True
-        return False
 
 # RUN
 if __name__ == '__main__':
