@@ -25,7 +25,7 @@ class Game:
         self.process()
     
     # load a new frame
-    def frame(self, action: bool = True) -> None:
+    def frame(self, action: bool = True, timer: float = 0.5) -> None:
         print("\x1b[?25l") # hide cursor
         system('cls')
         line = ''
@@ -39,7 +39,7 @@ class Game:
         print(line[:-1])
         
         if action:
-            self.actionCount += 0.5
+            self.actionCount += timer
         print('Action Count:', self.actionCount)
         
     # change stages
@@ -70,6 +70,8 @@ class Game:
                     self.godownleft()
                 case 'cdown':
                     self.godownright()
+                case 'sdown':
+                    self.restonce()
                 case 'escdown':
                     self.quit()
     
@@ -190,6 +192,10 @@ class Game:
         self.board[self.stage][x][y] = Board().board[self.stage][x][y]
         
         self.frame()
+        
+    # rest once
+    def restonce(self) -> None:
+        self.frame(timer=1)
     
     # quitter
     def quit(self) -> None:
