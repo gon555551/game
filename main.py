@@ -39,7 +39,7 @@ class Game:
         # the line and action count
         line = f'Action Count: {self.actionCount}\n'
         
-        # board
+        # visual window fo 10x10
         for a in range(self.player.x-5, self.player.x+5):
             for b in range(self.player.y-5, self.player.y+5):
                 # if it's the player, print the player
@@ -67,6 +67,7 @@ class Game:
         while True:
             # time setter
             self.attime = f'{datetime.datetime.now().strftime("%H:%M:%S")}: '
+            
             # event reader
             event = keyboard.read_event()
             # event matcher
