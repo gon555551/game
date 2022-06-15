@@ -19,6 +19,7 @@ class Game:
     attime: str
     ground: list
     player: Player
+    startinfo: Lander
     
     # defaults
     message: Message = Message(['' for _ in range(4)])
@@ -36,8 +37,8 @@ class Game:
         self.ground = items.itemize()
         
         # starting screen
-        startinfo = Lander()
-        self.player = Player(startinfo.name, startinfo.species, startinfo.background)
+        self.startinfo = Lander()
+        self.player = Player(self.startinfo.name, self.startinfo.species, self.startinfo.background)
         
         # update screen
         self._frame(action=False)
@@ -50,6 +51,10 @@ class Game:
     def _frame(self, action: bool = True, timer: float = 0.5) -> None:
         # clear
         system('cls')
+        
+        # if the action tag is active, add action
+        if action:
+            self.actionCount += timer
         
         # the line and action count
         line = f'Action Count: {self.actionCount}\n'
@@ -85,10 +90,6 @@ class Game:
                     line += self.board[self.stage][a][b]
                         
             line += '\n'
-        
-        # if the action tag is active, add action
-        if action:
-            self.actionCount += timer
         
         # get message lines
         for item in self.message.lines:
@@ -479,7 +480,8 @@ class Game:
     #
     # statchecker
     def statcheker(self) -> None:
-        self.player.damage, self.player.protection = Player().damage, Player().protection
+        starter = Player(self.startinfo.name, self.startinfo.species, self.startinfo.background)
+        self.player.damage, self.player.protection = starter.damage, starter.protection
         for i in self.player.inventory:
             self.player.damage += i.damage
             self.player.protection += i.protection

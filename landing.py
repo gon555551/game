@@ -35,9 +35,9 @@ class Lander():
     def __init__(self) -> None:
         self.fresh()                
         self.start()
-    
-    
-    
+
+
+
     def fresh(self) -> None:
         system('cls')
         self.line_changer()
@@ -119,7 +119,6 @@ Background: {self.background}{self.line_background}"""
                         continue
     
     def goOn(self) -> bool:
-        
         print(f"""
 You are {self.name}, the {self.species} {self.background}.
 
