@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from messager import *
 from player import *
 from board import *
@@ -128,6 +129,9 @@ class Game:
                     
                 case 'idown':
                     self.listinv()
+                    
+                case 'ldown':
+                    self.leaveitem()
                 
                 case 'escdown':
                     self.quit()
@@ -239,6 +243,11 @@ class Game:
         
     # grab item
     def grab(self) -> None:
+        if self.isfull():
+            self.message.roll(f'{self.attime}Your inventory is full!')
+            self._frame(action=False)
+            return 
+        
         for i in self.ground:
             if (self.player.x, self.player.y, self.stage) == (i.x, i.y, i.k):
                 self.ground.remove(i)
@@ -247,14 +256,68 @@ class Game:
                 self._frame()
                 return
         self.message.roll(f'{self.attime}No item here!')
-        self._frame(action=False) 
+        self._frame(action=False)
+        
+    # leave item
+    def leaveitem(self) -> None:
+        if self.isempty():
+            self.message.roll(f'{self.attime}You\'re not holding anything!')
+            self._frame(action=False)
+            return 
+        
+        if self.isfull():
+            self.message.roll(f'{self.attime}Your inventory is full!')
+            self._frame(action=False)
+            return 
+        
+        selector = 0
+        self.message.roll(f'{self.attime}What item to leave?')
+        
+        def updateline():
+            line = ''
+            for i in self.player.inventory:
+                if self.player.inventory.index(i) == selector:
+                    line += f'\n> {i.type:10} {i.name:10} <'
+                else:
+                    line += f'\n  {i.type:10} {i.name:10}  '
+            self._frame(action=False)
+            print(line)
+        
+        updateline()
+        while True:
+            event = keyboard.read_event()
+            match event.name + event.event_type:
+                
+                case '.down':
+                    if selector == len(self.player.inventory)-1:
+                        selector = 0
+                    else:
+                        selector += 1
+                    updateline()
+                    
+                case 'enterdown':
+                    i = self.player.inventory[selector]
+                    i.x, i.y, i.k = self.player.x, self.player.y, self.stage
+                    self.ground.append(i)
+                    self.player.inventory.remove(i)
+                    self.message.roll(f'{self.attime}Left {i.name}!')
+                    self._frame()
+                    break
+                
+                case 'escdown':
+                    self._frame(action=False)
+                    break
+                
+                case _:
+                    pass
+                
         
     # list inventory
     def listinv(self) -> None:
-        if self.player.inventory == []:
+        if self.isempty():
             self.message.roll(f'{self.attime}You\'re not holding anything!')
             self._frame(action=False)
-            return
+            return 
         
         mess = ''
         for i in self.player.inventory:
@@ -281,11 +344,23 @@ class Game:
         # checks event
         event = keyboard.read_event()
         if event.name == 'esc':
+            system('cls')
             sys.exit()
         else:
             self.message.lines[-1] += 'Resuming...'
             self._frame(action=False)
 
+    # empty inventory
+    def isempty(self) -> Boolean:
+        if self.player.inventory == []:
+            return True
+        return False
+    
+    # full inventory
+    def isfull(self) -> Boolean:
+        if len(self.player.inventory) == 10:
+            return True
+        return False
 
 # RUN
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
-import board
+import keyboard
 
-board = board.Board()
-
-board.get_empty()
+while True:
+    event = keyboard.read_event()
+    print(event.name + event.event_type)
