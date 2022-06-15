@@ -1,4 +1,5 @@
 import dataclasses
+import items
 
 @dataclasses.dataclass
 class Player:
@@ -6,7 +7,7 @@ class Player:
     
     x: int
     y: int
-    inventory: list[tuple]
+    inventory: list[items.Item]
     
     damage: float
     protection: float

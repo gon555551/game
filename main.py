@@ -150,13 +150,17 @@ class Game:
                 case 'ldown':
                     self.leaveitem()
                 
+                case 'pdown':
+                    self.getstats()
+                
                 case 'escdown':
                     self.quit()
     #
     #
-    #
     # LOOP PROCESSOR ENDED
     # after here are several important methods dealing with keyboard inputs
+    #
+    #
     #
     # failed to move, reload frame and inform
     def fail(self) -> None:
@@ -432,6 +436,13 @@ class Game:
         self._frame(timer=1)
     #
     #
+    # display stats
+    def getstats(self) -> None:
+        self.statcheker()
+        self.message.roll(f'{self.attime}Damage {self.player.damage}, Protection {self.player.protection}')
+        self._frame(action=False)    
+    #
+    #
     #
     # the quitter quits the program
     #
@@ -452,8 +463,19 @@ class Game:
         else:
             self.message.lines[-1] += 'Resuming...'
             self._frame(action=False)
-
-
+    #
+    #
+    # here are additional methods that don't necessarily deal with keyboard inputs
+    #
+    # statchecker
+    def statcheker(self) -> None:
+        self.player.damage, self.player.protection = Player().damage, Player().protection
+        for i in self.player.inventory:
+            self.player.damage += i.damage
+            self.player.protection += i.protection
+#
+#
+#
 # RUN
 if __name__ == '__main__':
     game = Game()
