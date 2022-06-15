@@ -73,7 +73,7 @@ class Board:
             2: (14, 12)
         }
         
-        self.buffer()
+        self.generate()
 
     def buffer(self) -> None:
         for k in self.board.keys():
@@ -88,7 +88,7 @@ class Board:
                 buff1.append(self.board[k][i])
             self.board[k] = buff1
     
-    def get_empty(self, num: int) -> tuple:
+    def get_empty(self, num: int) -> list:
         result = []
         for _ in range(num):
             k = random.choice(list(self.board.keys()))
@@ -104,3 +104,30 @@ class Board:
             result.append([k, x, y])
         
         return result
+    
+    def getempty_s(self, stage: int) -> tuple:
+        while True:
+            y = random.choice(range(len(self.board[stage][0])))
+            x = random.choice(range(len(self.board[stage])))
+            if self.board[stage][x][y] == self.tiles['empty']:
+                return (x, y)
+    
+    def generate(self) -> None:
+        self.board[4] = []
+        x = random.choice(range(8, 10))
+        y = random.choice(range(8, 10))
+        for a in range(y):
+            line = []
+            for b in range(x):
+                line.append(random.choice([self.tiles['wall'], self.tiles['empty']]))
+            self.board[4].append(line)
+        
+        self.buffer()
+        
+        down = self.getempty_s(4)
+        self.transdown[4] = down
+        up_3 = self.getempty_s(3)
+        self.transup[3] = up_3
+        self.board[4][down[0]][down[1]] = self.tiles['up']
+        self.board[3][up_3[0]][up_3[1]] = self.tiles['down']
+        

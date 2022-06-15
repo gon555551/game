@@ -58,8 +58,8 @@ class Shield(Item):
         return 'H'
 
 
-def itemize() -> tuple:
-    result = board.Board().get_empty(2)
+def itemize(board: board.Board) -> tuple:
+    result = board.get_empty(2)
     returned = []
     
     sword = Sword(0, 'JOSEPHINE', result[0][1], result[0][2], result[0][0], 5)

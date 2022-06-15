@@ -25,7 +25,7 @@ class Game:
     message: Message = Message(['' for _ in range(4)])
     actionCount: int = 0
     stage: float = 1.0
-    board = Board().board
+    board = Board()
     #
     #
     # initializes with hidden cursor, player at (4, 4)
@@ -34,7 +34,7 @@ class Game:
         print("\x1b[?25l") 
         
         # get item layout
-        self.ground = items.itemize()
+        self.ground = items.itemize(self.board)
         
         # starting screen
         self.startinfo = Lander()
@@ -77,7 +77,7 @@ class Game:
                         if (a, b, self.stage) == (i.x, i.y, i.k):
                             here.append(i)
                     if len(here) > 1:
-                        line += Board().tiles['many']
+                        line += self.board.tiles['many']
                         done = True
                     elif len(here) == 1:
                         line += repr(here[0])
@@ -87,7 +87,7 @@ class Game:
                         
                 # otherwise, show empty
                 if done is False:
-                    line += self.board[self.stage][a][b]
+                    line += self.board.board[self.stage][a][b]
                         
             line += '\n'
         
@@ -205,7 +205,7 @@ class Game:
     # go up
     def goup(self) -> None:
         # checks if it's moving into a wall
-        if self.board[self.stage][self.player.x-1][self.player.y] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x-1][self.player.y] == self.board.tiles['wall']:
             # if so, calls fail
             self.fail()
             return
@@ -217,7 +217,7 @@ class Game:
     #
     # go left
     def goleft(self) -> None:
-        if self.board[self.stage][self.player.x][self.player.y-1] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x][self.player.y-1] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -227,7 +227,7 @@ class Game:
     #
     # go down
     def godown(self) -> None:
-        if self.board[self.stage][self.player.x+1][self.player.y] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x+1][self.player.y] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -237,7 +237,7 @@ class Game:
     #
     # go right
     def goright(self) -> None:
-        if self.board[self.stage][self.player.x][self.player.y+1] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x][self.player.y+1] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -247,7 +247,7 @@ class Game:
     #
     # go up left
     def goupleft(self) -> None:
-        if self.board[self.stage][self.player.x-1][self.player.y-1] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x-1][self.player.y-1] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -257,7 +257,7 @@ class Game:
     #
     # go up right
     def goupright(self) -> None:
-        if self.board[self.stage][self.player.x-1][self.player.y+1] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x-1][self.player.y+1] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -267,7 +267,7 @@ class Game:
     #
     # go down left
     def godownleft(self) -> None:
-        if self.board[self.stage][self.player.x+1][self.player.y-1] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x+1][self.player.y-1] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -277,7 +277,7 @@ class Game:
     #
     # go down right
     def godownright(self) -> None:
-        if self.board[self.stage][self.player.x+1][self.player.y+1] == Board().tiles['wall']:
+        if self.board.board[self.stage][self.player.x+1][self.player.y+1] == self.board.tiles['wall']:
             self.fail()
             return
         
@@ -288,10 +288,10 @@ class Game:
     # down stairs
     def climbdown(self) -> None:
         # checks if there's stairs going down
-        if Board().board[self.stage][self.player.x][self.player.y] == Board().tiles['down']:
+        if self.board.board[self.stage][self.player.x][self.player.y] == self.board.tiles['down']:
             # if yes, updates stage
             self.stage += 1
-            self.player.x, self.player.y = Board().transdown[self.stage]
+            self.player.x, self.player.y = self.board.transdown[self.stage]
             self._frame()
             return
         # otherwise, fails
@@ -301,9 +301,9 @@ class Game:
     #
     # up stairs
     def climbup(self) -> None:
-        if Board().board[self.stage][self.player.x][self.player.y] == Board().tiles['up']:
+        if self.board.board[self.stage][self.player.x][self.player.y] == self.board.tiles['up']:
             self.stage -= 1
-            self.player.x, self.player.y = Board().transup[self.stage]
+            self.player.x, self.player.y = self.board.transup[self.stage]
             self._frame()
             return
         self.message.roll(f'{self.attime}Can\'t go up here!')
