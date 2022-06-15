@@ -17,4 +17,5 @@ Currently has these controls:
 - l   -> leave an item
 - .   -> move the item selector
 - i   -> display inventory
+- v   -> view on floor
 - ESC -> enable program exit

@@ -166,6 +166,12 @@ class Game:
                 
                 case 'escdown':
                     self.quit()
+                    
+                case 'vdown':
+                    self.view()
+                
+                case _:
+                    pass
     #
     #
     # LOOP PROCESSOR ENDED
@@ -325,7 +331,7 @@ class Game:
                 i = here[0]
                 self.ground.remove(i)
                 self.player.inventory.append(i)
-                self.message.roll(f'{self.attime}Grabbed {i.name}')
+                self.message.roll(f'{self.attime}Grabbed {i.type} {i.name}')
                 self._frame()
                 return
             case _:
@@ -451,7 +457,23 @@ class Game:
     def getstats(self) -> None:
         self.statcheker()
         self.message.roll(f'{self.attime}Damage {self.player.damage}, Protection {self.player.protection}')
-        self._frame(action=False)    
+        self._frame(action=False)  
+    #
+    #
+    # view what's on the ground
+    def view(self) -> None:
+        line = ''
+        for i in self.ground:
+            if (i.x, i.y, i.k) == (self.player.x, self.player.y, self.stage):
+                line += f'{i.type} {i.name}, '
+        
+        if line == '':
+            self.message.roll('There\'s nothing here!')
+            self._frame()
+        else:
+            line = 'You see here: ' + line[:-2]
+            self.message.roll(line)
+            self._frame()
     #
     #
     #
