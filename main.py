@@ -21,7 +21,7 @@ class Game:
         print("\x1b[?25l") # hide cursor
         self.actionCount = 0
         
-        self.player = Player(4, 4)
+        self.player = Player(4, 5)
         self.message = Message(['' for _ in range(4)])
         
         # update screen
