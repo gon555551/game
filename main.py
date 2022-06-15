@@ -1,4 +1,5 @@
 from messager import *
+from landing import *
 from player import *
 from board import *
 from items import *
@@ -33,6 +34,9 @@ class Game:
         
         # get item layout
         self.ground = items.itemize()
+        
+        # # starting screen
+        # self.player.name = start()
         
         # update screen
         self._frame(action=False)

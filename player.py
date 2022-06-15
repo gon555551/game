@@ -14,6 +14,8 @@ class Player:
     damage: float
     protection: float
     
+    name: str
+    
     def __init__(self) -> None:
         self.x = 10
         self.y = 10
@@ -21,6 +23,8 @@ class Player:
         
         self.damage = 0
         self.protection = 0
+        
+        self.name = None
 
     def __repr__(self) -> str:
         return '@'
