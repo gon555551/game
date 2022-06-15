@@ -37,8 +37,8 @@ class Game:
         line = f'Action Count: {self.actionCount}\n'
         
         # board
-        for a in range(10):
-            for b in range(10):
+        for a in range(len(self.board[self.stage])):
+            for b in range(len(self.board[self.stage][0])):
                 # if it's the player, print the player
                 if (a, b) == (self.player.x, self.player.y):
                     line += repr(self.player)
@@ -192,6 +192,7 @@ class Game:
         if Board().board[self.stage][self.player.x][self.player.y] == Board().tiles['down']:
             # if yes, updates stage
             self.stage += 1
+            self.player.x, self.player.y = Board().transdown[self.stage]
             self._frame()
             return
         # otherwise, fails
@@ -202,6 +203,7 @@ class Game:
     def climbup(self) -> None:
         if Board().board[self.stage][self.player.x][self.player.y] == Board().tiles['up']:
             self.stage -= 1
+            self.player.x, self.player.y = Board().transup[self.stage]
             self._frame()
             return
         self.message.roll('Can\'t go up here!')
