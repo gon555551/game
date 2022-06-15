@@ -12,4 +12,9 @@ Currently has these controls:
 - s   -> rest for 1 turn
 - <   -> climb down stairs
 - \>   -> climb up stairs
+- p   -> display stats
+- g   -> grab an item
+- l   -> leave an item
+- .   -> move the item selector
+- i   -> display inventory
 - ESC -> enable program exit
