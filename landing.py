@@ -122,6 +122,7 @@ Background: {self.background}{self.line_background}"""
         
         print(f"""
 You are {self.name}, the {self.species} {self.background}.
+
 Press ENTER to continue... """)
         
         # event buffer
