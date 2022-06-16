@@ -48,6 +48,13 @@ class Game:
     #
     # loads a new frame, very important
     def _frame(self, action: bool = True, timer: float = 0.5) -> None:
+        """sets new frame
+
+        Args:
+            action (bool, optional): _description_. Defaults to True.
+            timer (float, optional): _description_. Defaults to 0.5.
+        """
+        
         # clear
         system('cls')
         #
