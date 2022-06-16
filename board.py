@@ -14,7 +14,7 @@ class Board:
     transdown: dict
     transup: dict
     
-    def __init__(self) -> None:
+    def __init__(self, num: int) -> None:
         
         self.tiles = {
             'wall': '#',
@@ -34,7 +34,7 @@ class Board:
         #
         #
         # GENERATE BOARDS
-        self.generate(10)
+        self.generate(num)
 
     def buffer(self) -> None:
         for k in self.board.keys():

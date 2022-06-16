@@ -1,4 +1,5 @@
 import board
+import random
 
 """
 The item classes and methods, as well as the itemize function.
@@ -26,6 +27,8 @@ class Sword(Item):
     y: int
     k: int
     
+    sym: str = 'S'
+    
     def __init__(self, id: int, name: str, x, y, k, damage) -> None:
         super().__init__('sword', damage, 0)
         self.id = id
@@ -46,6 +49,8 @@ class Shield(Item):
     y: int
     k: int
     
+    sym: str = 'H'
+    
     def __init__(self, id: int, name: str, x, y, k, prot) -> None:
         super().__init__('shield', 0, prot)
         self.id = id
@@ -58,12 +63,21 @@ class Shield(Item):
         return 'H'
 
 
-def itemize(board: board.Board) -> tuple:
-    result = board.get_empty(2)
+def itemize(board: board.Board, num: int) -> tuple:
+    result = board.get_empty(num)
     returned = []
+    id = 0
     
-    sword = Sword(0, 'JOSEPHINE', result[0][1], result[0][2], result[0][0], 5)
-    shield = Shield(1, 'JASPER', result[1][1], result[1][2], result[1][0], 5)
-    returned.append(sword)
-    returned.append(shield)
+    for i in result:
+        tp = random.choice(Item.__subclasses__())
+        returned.append(tp(id, f'{id}', i[1], i[2], i[0], random.randint(1, 10)))
+        id += 1
+    
     return returned
+        
+        
+    # sword = Sword(0, 'JOSEPHINE', result[0][1], result[0][2], result[0][0], 5)
+    # shield = Shield(1, 'JASPER', result[1][1], result[1][2], result[1][0], 5)
+    # returned.append(sword)
+    # returned.append(shield)
+    # return returned

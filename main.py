@@ -25,7 +25,7 @@ class Game:
     message: Message = Message(['' for _ in range(4)])
     actionCount: int = 0
     stage: int = 1
-    board = Board()
+    board = Board(1)
     #
     #
     # initializes with hidden cursor, player at (4, 4)
@@ -34,7 +34,7 @@ class Game:
         print("\x1b[?25l") 
         
         # get item layout
-        self.ground = items.itemize(self.board)
+        self.ground = items.itemize(self.board, 30)
         
         # starting screen
         self.startinfo = Lander()
@@ -115,7 +115,7 @@ class Game:
         # command loop
         while True:
             # time setter
-            self.attime = f'{datetime.datetime.now().strftime("%H:%M:%S")}: '
+            self.attime = f'{datetime.datetime.now().strftime("[%H:%M:%S]")} '
             
             # event reader
             event = keyboard.read_event()
@@ -334,7 +334,7 @@ class Game:
                 i = here[0]
                 self.ground.remove(i)
                 self.player.inventory.append(i)
-                self.message.roll(f'{self.attime}Grabbed {i.type} {i.name}')
+                self.message.roll(f'{self.attime}Grabbed {i.type} {i.name}!')
                 self._frame()
                 return
             case _:
@@ -443,7 +443,7 @@ class Game:
         
         mess = ''
         for i in self.player.inventory:
-            mess += f'{i.type} {i.name}, '
+            mess += f'{len(self.player.inventory)} item(s): {i.type} {i.name}, '
         mess = mess[:-2]
         
         self.message.roll(f'{self.attime}{mess}')
@@ -505,7 +505,7 @@ class Game:
     #
     # statchecker
     def statcheker(self) -> None:
-        starter = Player(board.Board(), self.startinfo.name, self.startinfo.species, self.startinfo.background)
+        starter = Player(self.board, self.startinfo.name, self.startinfo.species, self.startinfo.background)
         self.player.damage, self.player.protection = starter.damage, starter.protection
         for i in self.player.inventory:
             self.player.damage += i.damage
