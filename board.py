@@ -34,7 +34,7 @@ class Board:
         #
         #
         # GENERATE BOARDS
-        self.generate(2)
+        self.generate(10)
 
     def buffer(self) -> None:
         for k in self.board.keys():
