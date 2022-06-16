@@ -1,9 +1,5 @@
 import dataclasses
 
-"""
-Handles the message line.
-"""
-
 @dataclasses.dataclass
 class Message:
     """message lines"""

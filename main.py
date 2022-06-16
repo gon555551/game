@@ -8,11 +8,6 @@ import keyboard
 import datetime
 import sys
 
-"""
-main.py module for the game. Contains the processor event loop and several useful methods,
-including the new frame/frame update method, and several keyboard input processing methods.
-"""
-
 class Game:
     """the game class, includes commands and command processor"""
 

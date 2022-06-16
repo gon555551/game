@@ -1,10 +1,6 @@
 import items
 import board
 
-"""
-The player class, and in the future, the subclasses.
-"""
-
 class Player:
     """the player"""
     
