@@ -34,7 +34,7 @@ class Board:
         #
         #
         # GENERATE BOARDS
-        self.generate(5)
+        self.generate(2)
 
     def buffer(self) -> None:
         for k in self.board.keys():
@@ -93,7 +93,6 @@ class Board:
                 up = self.getempty_s(i-1)
                 self.transup[i-1] = up
                 self.board[i-1][up[0]][up[1]] = self.tiles['down']
-            
-            self.board[i][down[0]][down[1]] = self.tiles['up']
+                self.board[i][down[0]][down[1]] = self.tiles['up']
             
         

@@ -1,4 +1,5 @@
 import items
+import board
 
 """
 The player class, and in the future, the subclasses.
@@ -20,9 +21,8 @@ class Player:
     
     title: str
     
-    def __init__(self, name: str = '', species: str = '', background: str = '') -> None:
-        self.x = 10
-        self.y = 10
+    def __init__(self, board: board.Board, name: str = '', species: str = '', background: str = '') -> None:
+        self.x, self.y = board.getempty_s(1)
         self.inventory = []
         self.name = name
         self.species = species

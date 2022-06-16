@@ -38,7 +38,7 @@ class Game:
         
         # starting screen
         self.startinfo = Lander()
-        self.player = Player(self.startinfo.name, self.startinfo.species, self.startinfo.background)
+        self.player = Player(self.board, self.startinfo.name, self.startinfo.species, self.startinfo.background)
         
         # update screen
         self._frame(action=False)
