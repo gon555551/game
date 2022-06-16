@@ -60,7 +60,7 @@ class Game:
         line = f'Action Count: {self.actionCount}\n'
         
         # some info
-        line += f'{self.player.title} is on stage {self.stage}\n\n'
+        line += f'{self.player.title} is on stage {self.stage} of {len(self.board.board.keys())}\n\n'
         
         # visual window fo 10x10
         for a in range(self.player.x-5, self.player.x+5):
