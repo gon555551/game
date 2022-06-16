@@ -71,7 +71,13 @@ class Lander():
 
 {self.on_bg}Background: {self.background}{self.line_background}
 
-{self.on_op}Options: {self.line_options}"""
+{self.on_op}Options: {self.line_options}
+
+.     ->     move cursor
+ENTER ->     select
+ESC   ->     go back
+
+Just type your name! 10 characters maximum..."""
         print(line)
 
     def line_changer(self) -> None:
@@ -227,7 +233,7 @@ class Lander():
     def goOn(self) -> bool:
         if self.options == 'Start':
             print(f"""
-You are {self.name}, the {self.species} {self.background}.
+>>>>{'':5}You are {self.name}, the {self.species} {self.background}.{'':5}<<<<
 
 Press ENTER to continue... """)
             # event buffer
@@ -301,10 +307,11 @@ ESC     ->       exit the game
         
         changer()
         
-        line = f"""You are {self.name}, the {self.species} {self.background}.
+        line = f""">>>>{'':5}You are {self.name}, the {self.species} {self.background}.{'':5}<<<<
 
 {self.on_bn}Board Number: {self.boards}
 {self.on_in}Item Number:  {self.items}
+
 Press ENTER to advance...
 """
         print(line)
