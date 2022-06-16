@@ -15,20 +15,33 @@ class Lander():
         'Warrior',
         'Mage'
     ]
+    options_list: list[str] = [
+        'Start',
+        'Controls',
+        'Setup'
+    ]
     
     place: dict = {
-        True: species_list,
-        False: background_list
+        0: species_list,
+        1: background_list,
+        2: options_list
     }
     
+    on_bg: str = ''
+    on_sp: str = ''
+    on_op: str = ''
+    
     name: str = ''
+    
     species: str = ''
     background: str = ''
+    options: str = ''
     
     line_species: str = ''
     line_background: str = ''
+    line_options: str = ''
     
-    choice: bool = True
+    choice: int = 0
     selector: int = 0
     
     
@@ -44,13 +57,19 @@ class Lander():
 
         line = f"""Name: {self.name}
 
-Species: {self.species}{self.line_species}
+{self.on_sp}Species: {self.species}{self.line_species}
 
-Background: {self.background}{self.line_background}""" 
+{self.on_bg}Background: {self.background}{self.line_background}
+
+{self.on_op}Options: {self.line_options}"""
         print(line)
 
     def line_changer(self) -> None:
-        if self.choice:
+        if self.choice == 0:
+            self.on_bg = ''
+            self.on_op = ''
+            self.on_sp = '* '
+            
             self.line_species = ''
             for s in self.species_list:
                 if self.species_list.index(s) == self.selector:
@@ -61,13 +80,36 @@ Background: {self.background}{self.line_background}"""
             self.line_background = ''
             for b in self.background_list:
                 self.line_background += f'\n  {b:10}  '
-        else:
+                
+            self.line_options = ''
+            for o in self.options_list:
+                self.line_options += f'\n  {o:10}  '
+                
+        elif self.choice == 1:
+            self.on_sp = ''
+            self.on_op = ''
+            self.on_bg = '* '
             self.line_background = ''
             for b in self.background_list:
                 if self.background_list.index(b) == self.selector:
                     self.line_background += f'\n> {b:10} <'
                 else:
                     self.line_background += f'\n  {b:10}  '
+                    
+            self.line_options = ''
+            for o in self.options_list:
+                self.line_options += f'\n  {o:10}  '
+                
+        else:
+            self.on_bg = ''
+            self.on_sp = ''
+            self.on_op = '* '
+            self.line_options = ''
+            for b in self.options_list:
+                if self.options_list.index(b) == self.selector:
+                    self.line_options += f'\n> {b:10} <'
+                else:
+                    self.line_options += f'\n  {b:10}  '
                 
     def start(self) -> None:
         while True:
@@ -83,21 +125,32 @@ Background: {self.background}{self.line_background}"""
                     self.line_changer()
                     self.fresh()
                 case 'enterdown':
-                    if self.choice:
+                    if self.choice == 0:
                         self.species = self.species_list[self.selector]
-                        self.choice = not self.choice
+                        self.choice += 1
+                        self.selector = 0
+                        self.line_changer()
+                        self.fresh()
+                    elif self.choice == 1:
+                        self.background = self.background_list[self.selector]
+                        self.choice += 1
                         self.selector = 0
                         self.line_changer()
                         self.fresh()
                     else:
-                        self.background = self.background_list[self.selector]
+                        self.options = self.options_list[self.selector]
                         self.line_changer()
                         self.fresh()
                         if not self.goOn():
                             break
                 case 'escdown':
-                    if not self.choice:
-                        self.choice = not self.choice
+                    if self.choice == 2:
+                        self.choice -= 1
+                        self.selector = 0
+                        self.line_changer()
+                        self.fresh()
+                    elif self.choice == 1:
+                        self.choice -= 1
                         self.selector = 0
                         self.line_changer()
                         self.fresh()
