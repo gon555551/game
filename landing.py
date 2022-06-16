@@ -37,7 +37,8 @@ class Lander():
     background: str = ''
     options: str = ''
     
-    
+    boards: str = '3'
+    items: str = '10'
     
     line_species: str = ''
     line_background: str = ''
@@ -47,6 +48,11 @@ class Lander():
     selector: int = 0
     
     reading: bool = False
+    
+    tinkering: bool = False
+    on_bn: str = '  '
+    on_in: str = '  '
+    bn: bool = True
     
     
     def __init__(self) -> None:
@@ -119,7 +125,41 @@ class Lander():
         while True:
             event = keyboard.read_event()
             
-            if self.reading:
+            if self.tinkering:
+                match event.name + event.event_type:
+                    case 'escdown':
+                        self.boards = '3'
+                        self.items = '10'
+                        self.bn = True
+                        self.tinkering = False
+                        self.line_changer()
+                        self.fresh()
+                    case '.down':
+                        self.bn = not self.bn
+                        self.tinker()
+                    case 'enterdown':
+                        break
+                    case 'backspacedown':
+                        if self.bn:
+                            self.boards = self.boards[:-1]
+                            self.tinker()
+                        else:
+                            self.items = self.items[:-1]
+                            self.tinker()
+                    case _:
+                        if event.event_type == 'down':
+                            if event.name in string.digits:
+                                if self.bn:
+                                    if len(self.boards) < 2:
+                                        self.boards += event.name
+                                        self.tinker()
+                                else:
+                                    if len(self.items) < 2:
+                                        self.items += event.name
+                                        self.tinker()
+
+            
+            elif self.reading:
                 match event.name + event.event_type:
                     case 'escdown':
                         self.reading = False
@@ -206,9 +246,10 @@ Press ENTER to continue... """)
             return True
             
         else:
-            pass
+            self.tinker()
+            return True
     
-    def leave(self) -> None:
+    def leave(self, tink: bool = False) -> None:
         print('\nPress ESC to exit... ')
         
         # event buffer
@@ -225,8 +266,7 @@ Press ENTER to continue... """)
     def showcontrols(self) -> bool:
         self.reading = True
         system('cls')
-        line = """
-q w e
+        line = """q w e
  \\|/
 a-s-d    <- directional movement (0.5) and rest (1.0)
  /|\\
@@ -247,3 +287,24 @@ ESC     ->       exit the game
         line += """Press ESC to return... """
         print(line)
         
+    def tinker(self) -> None:
+        self.tinkering = True
+        system('cls')
+        
+        def changer() -> None:
+            if self.bn:
+                self.on_bn = '* '
+                self.on_in = '  '
+            else:
+                self.on_bn = '  '
+                self.on_in = '* '
+        
+        changer()
+        
+        line = f"""You are {self.name}, the {self.species} {self.background}.
+
+{self.on_bn}Board Number: {self.boards}
+{self.on_in}Item Number:  {self.items}
+Press ENTER to advance...
+"""
+        print(line)
