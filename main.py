@@ -24,7 +24,7 @@ class Game:
     # defaults
     message: Message = Message(['' for _ in range(4)])
     actionCount: int = 0
-    stage: float = 1.0
+    stage: int = 1
     board = Board()
     #
     #
@@ -58,6 +58,9 @@ class Game:
         
         # the line and action count
         line = f'Action Count: {self.actionCount}\n'
+        
+        # some info
+        line += f'{self.player.title} is on stage {self.stage}\n\n'
         
         # visual window fo 10x10
         for a in range(self.player.x-5, self.player.x+5):
