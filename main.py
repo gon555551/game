@@ -505,7 +505,7 @@ class Game:
     #
     # statchecker
     def statcheker(self) -> None:
-        starter = Player(self.startinfo.name, self.startinfo.species, self.startinfo.background)
+        starter = Player(board.Board(), self.startinfo.name, self.startinfo.species, self.startinfo.background)
         self.player.damage, self.player.protection = starter.damage, starter.protection
         for i in self.player.inventory:
             self.player.damage += i.damage
