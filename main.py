@@ -16,7 +16,7 @@ class Game:
     player: Player
     startinfo: Lander
     board: Board
-    
+    #
     # defaults
     message: Message = Message(['' for _ in range(4)])
     actionCount: int = 0
@@ -27,18 +27,18 @@ class Game:
     def __init__(self) -> None:
         # hide cursor
         print("\x1b[?25l") 
-        
+        #
         # starting screen
         self.startinfo = Lander()
-        
+        #
         # board
         self.board = Board(int(self.startinfo.boards))
-        
+        #
         # get item layout
         self.ground = items.itemize(self.board, int(self.startinfo.items))
-
+        #
         self.player = Player(self.board, self.startinfo.name, self.startinfo.species, self.startinfo.background)
-        
+        #
         # update screen
         self._frame(action=False)
         
@@ -50,28 +50,28 @@ class Game:
     def _frame(self, action: bool = True, timer: float = 0.5) -> None:
         # clear
         system('cls')
-        
+        #
         # if the action tag is active, add action
         if action:
             self.actionCount += timer
-        
+        #
         # the line and action count
         line = f'Action Count: {self.actionCount}\n'
-        
+        #
         # some info
         line += f'{self.player.title} is on stage {self.stage} of {len(self.board.board.keys())}\n\n'
-        
+        #
         # visual window fo 10x10
         for a in range(self.player.x-5, self.player.x+5):
             for b in range(self.player.y-5, self.player.y+5):
                 # done checker
                 done = False
-                
+                #
                 # show player over anything
                 if (a, b) == (self.player.x, self.player.y):
                         line += repr(self.player)
                         done = True
-                
+                #
                 # show item over empty
                 if done is False:
                     here = []
@@ -86,17 +86,17 @@ class Game:
                         done = True
                     else:
                         pass
-                        
+                  #      
                 # otherwise, show empty
                 if done is False:
                     line += self.board.board[self.stage][a][b]
-                        
+            #          
             line += '\n'
-        
+        #
         # get message lines
         for item in self.message.lines:
             line += f'{item}\n'
-        
+        #
         # display
         print(line[:-1])
     #
@@ -120,58 +120,58 @@ class Game:
             event = keyboard.read_event()
             # event matcher
             match event.name + event.event_type:
-                
+                #
                 case 'wdown':
                     self.goup()
-                    
+                #    
                 case 'adown':
                     self.goleft()
-                    
+                #    
                 case 'xdown':
                     self.godown()
-                    
+                #    
                 case 'ddown':
                     self.goright()
-                    
+                #    
                 case 'qdown':
                     self.goupleft()
-                
+                #
                 case 'edown':
                     self.goupright()
-                
+                #
                 case 'zdown':
                     self.godownleft()
-                
+                #
                 case 'cdown':
                     self.godownright()
-                
+                #
                 case '<down':
                     self.climbdown()
-                
+                #
                 case '>down':
                     self.climbup()
-                
+                #
                 case 'sdown':
                     self.restonce()
-                    
+                #    
                 case 'gdown':
                     self.grab()
-                    
+                #    
                 case 'idown':
                     self.listinv()
-                    
+                #    
                 case 'ldown':
                     self.leaveitem()
-                
+                #
                 case 'pdown':
                     self.getstats()
-                
+                #
                 case 'escdown':
                     self.quit()
-                    
+                #    
                 case 'vdown':
                     self.view()
-                
+                #
                 case _:
                     pass
     #
@@ -222,7 +222,7 @@ class Game:
         if self.board.board[self.stage][self.player.x][self.player.y-1] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x, self.player.y-1        
         self._frame()
     #
@@ -232,7 +232,7 @@ class Game:
         if self.board.board[self.stage][self.player.x+1][self.player.y] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x+1, self.player.y        
         self._frame()
     #
@@ -242,7 +242,7 @@ class Game:
         if self.board.board[self.stage][self.player.x][self.player.y+1] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x, self.player.y+1        
         self._frame()
     #
@@ -252,7 +252,7 @@ class Game:
         if self.board.board[self.stage][self.player.x-1][self.player.y-1] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x-1, self.player.y-1       
         self._frame()
     #
@@ -262,7 +262,7 @@ class Game:
         if self.board.board[self.stage][self.player.x-1][self.player.y+1] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x-1, self.player.y+1      
         self._frame()
     #
@@ -272,7 +272,7 @@ class Game:
         if self.board.board[self.stage][self.player.x+1][self.player.y-1] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x+1, self.player.y-1        
         self._frame()
     #
@@ -282,7 +282,7 @@ class Game:
         if self.board.board[self.stage][self.player.x+1][self.player.y+1] == self.board.tiles['wall']:
             self.fail()
             return
-        
+        #
         self.player.x, self.player.y = self.player.x+1, self.player.y+1      
         self._frame()
     #
@@ -318,12 +318,12 @@ class Game:
             self.message.roll(f'{self.attime}Your inventory is full!')
             self._frame(action=False)
             return 
-        
+        #
         here = []
         for i in self.ground:
             if (self.player.x, self.player.y, self.stage) == (i.x, i.y, i.k):
                 here.append(i)
-                
+        #       
         match len(here):
             case 0:
                 self.message.roll(f'{self.attime}No item here!')
@@ -339,7 +339,7 @@ class Game:
             case _:
                 selector = 0
                 self.message.roll(f'{self.attime}What item to grab?')
-                
+                #
                 def updateline():
                     line = ''
                     for i in here:
@@ -349,19 +349,19 @@ class Game:
                             line += f'\n  {i.type:10} {i.name:10}  '
                     self._frame(action=False)
                     print(line)
-                
+                #
                 updateline()
                 while True:
                     event = keyboard.read_event()
                     match event.name + event.event_type:
-                        
+                        #
                         case '.down':
                             if selector == len(here)-1:
                                 selector = 0
                             else:
                                 selector += 1
                             updateline()
-                            
+                        #    
                         case 'enterdown':
                             i = here[selector]
                             i.x, i.y, i.k = self.player.x, self.player.y, self.stage
@@ -370,11 +370,11 @@ class Game:
                             self.message.roll(f'{self.attime}Grabbed {i.type} {i.name}!')
                             self._frame()
                             break
-                        
+                        #
                         case 'escdown':
                             self._frame(action=False)
                             break
-                        
+                        #
                         case _:
                             pass
     #
@@ -385,15 +385,15 @@ class Game:
             self.message.roll(f'{self.attime}You\'re not holding anything!')
             self._frame(action=False)
             return 
-        
+        #
         if self.isfull():
             self.message.roll(f'{self.attime}Your inventory is full!')
             self._frame(action=False)
             return 
-        
+        #
         selector = 0
         self.message.roll(f'{self.attime}What item to leave?')
-        
+        #
         def updateline():
             line = ''
             for i in self.player.inventory:
@@ -403,19 +403,19 @@ class Game:
                     line += f'\n  {i.type:10} {i.name:10}  '
             self._frame(action=False)
             print(line)
-        
+        #
         updateline()
         while True:
             event = keyboard.read_event()
             match event.name + event.event_type:
-                
+        #        
                 case '.down':
                     if selector == len(self.player.inventory)-1:
                         selector = 0
                     else:
                         selector += 1
                     updateline()
-                    
+                #    
                 case 'enterdown':
                     i = self.player.inventory[selector]
                     i.x, i.y, i.k = self.player.x, self.player.y, self.stage
@@ -424,11 +424,11 @@ class Game:
                     self.message.roll(f'{self.attime}Left {i.type} {i.name}!')
                     self._frame()
                     break
-                
+                #
                 case 'escdown':
                     self._frame(action=False)
                     break
-                
+                #
                 case _:
                     pass
     #
@@ -439,12 +439,12 @@ class Game:
             self.message.roll(f'{self.attime}You\'re not holding anything!')
             self._frame(action=False)
             return 
-        
+        #
         mess = ''
         for i in self.player.inventory:
             mess += f'{len(self.player.inventory)} item(s): {i.type} {i.name}, '
         mess = mess[:-2]
-        
+        #
         self.message.roll(f'{self.attime}{mess}')
         self._frame(action=False)
     #
@@ -468,7 +468,7 @@ class Game:
         for i in self.ground:
             if (i.x, i.y, i.k) == (self.player.x, self.player.y, self.stage):
                 line += f'{i.type} {i.name}, '
-        
+        #
         if line == '':
             self.message.roll('There\'s nothing here!')
             self._frame(action=False)
@@ -486,10 +486,10 @@ class Game:
         # reloads
         self.message.roll(f'{self.attime}Press ESC to exit. ')
         self._frame(action=False) 
-        
+        #
         # event buffer
         keyboard.read_event()
-        
+        #
         # checks event
         event = keyboard.read_event()
         if event.name == 'esc':
