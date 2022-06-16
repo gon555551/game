@@ -94,5 +94,3 @@ class Board:
                 self.transup[i-1] = up
                 self.board[i-1][up[0]][up[1]] = self.tiles['down']
                 self.board[i][down[0]][down[1]] = self.tiles['up']
-            
-        

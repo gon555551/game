@@ -74,10 +74,3 @@ def itemize(board: board.Board, num: int) -> tuple:
         id += 1
     
     return returned
-        
-        
-    # sword = Sword(0, 'JOSEPHINE', result[0][1], result[0][2], result[0][0], 5)
-    # shield = Shield(1, 'JASPER', result[1][1], result[1][2], result[1][0], 5)
-    # returned.append(sword)
-    # returned.append(shield)
-    # return returned
