@@ -27,9 +27,9 @@ class Lander():
         2: options_list
     }
     
-    on_bg: str = ''
-    on_sp: str = ''
-    on_op: str = ''
+    on_bg: str = '  '
+    on_sp: str = '  '
+    on_op: str = '  '
     
     name: str = ''
     
@@ -37,12 +37,16 @@ class Lander():
     background: str = ''
     options: str = ''
     
+    
+    
     line_species: str = ''
     line_background: str = ''
     line_options: str = ''
     
     choice: int = 0
     selector: int = 0
+    
+    reading: bool = False
     
     
     def __init__(self) -> None:
@@ -66,8 +70,8 @@ class Lander():
 
     def line_changer(self) -> None:
         if self.choice == 0:
-            self.on_bg = ''
-            self.on_op = ''
+            self.on_bg = '  '
+            self.on_op = '  '
             self.on_sp = '* '
             
             self.line_species = ''
@@ -86,8 +90,8 @@ class Lander():
                 self.line_options += f'\n  {o:10}  '
                 
         elif self.choice == 1:
-            self.on_sp = ''
-            self.on_op = ''
+            self.on_sp = '  '
+            self.on_op = '  '
             self.on_bg = '* '
             self.line_background = ''
             for b in self.background_list:
@@ -101,8 +105,8 @@ class Lander():
                 self.line_options += f'\n  {o:10}  '
                 
         else:
-            self.on_bg = ''
-            self.on_sp = ''
+            self.on_bg = '  '
+            self.on_sp = '  '
             self.on_op = '* '
             self.line_options = ''
             for b in self.options_list:
@@ -115,78 +119,94 @@ class Lander():
         while True:
             event = keyboard.read_event()
             
-            match event.name + event.event_type:
-                case '.down':
-                    if self.selector == len(self.place[self.choice])-1:
-                        self.selector = 0
-                    else:
-                        self.selector += 1
+            if self.reading:
+                match event.name + event.event_type:
+                    case 'escdown':
+                        self.reading = False
+                        self.line_changer()
+                        self.fresh()
+                    case _:
+                        pass
+            else:
+                match event.name + event.event_type:
+                    case '.down':
+                        if self.selector == len(self.place[self.choice])-1:
+                            self.selector = 0
+                        else:
+                            self.selector += 1
 
-                    self.line_changer()
-                    self.fresh()
-                case 'enterdown':
-                    if self.choice == 0:
-                        self.species = self.species_list[self.selector]
-                        self.choice += 1
-                        self.selector = 0
                         self.line_changer()
                         self.fresh()
-                    elif self.choice == 1:
-                        self.background = self.background_list[self.selector]
-                        self.choice += 1
-                        self.selector = 0
-                        self.line_changer()
-                        self.fresh()
-                    else:
-                        self.options = self.options_list[self.selector]
-                        self.line_changer()
-                        self.fresh()
-                        if not self.goOn():
-                            break
-                case 'escdown':
-                    if self.choice == 2:
-                        self.choice -= 1
-                        self.selector = 0
-                        self.line_changer()
-                        self.fresh()
-                    elif self.choice == 1:
-                        self.choice -= 1
-                        self.selector = 0
-                        self.line_changer()
-                        self.fresh()
-                    else:
-                        self.leave()
-                case 'backspacedown':
-                    self.name = self.name[:-1]
-                    self.line_changer()
-                    self.fresh()
-                case _:
-                    if len(self.name) == 10:
-                        continue
-                    elif event.event_type == 'down':
-                        if event.name in string.ascii_letters:
-                            self.name += event.name
+                    case 'enterdown':
+                        if self.choice == 0:
+                            self.species = self.species_list[self.selector]
+                            self.choice += 1
+                            self.selector = 0
                             self.line_changer()
                             self.fresh()
-                    else:
-                        continue
+                        elif self.choice == 1:
+                            self.background = self.background_list[self.selector]
+                            self.choice += 1
+                            self.selector = 0
+                            self.line_changer()
+                            self.fresh()
+                        else:
+                            self.options = self.options_list[self.selector]
+                            self.line_changer()
+                            self.fresh()
+                            if not self.goOn():
+                                break
+                    case 'escdown':
+                        if self.choice == 2:
+                            self.choice -= 1
+                            self.selector = 0
+                            self.line_changer()
+                            self.fresh()
+                        elif self.choice == 1:
+                            self.choice -= 1
+                            self.selector = 0
+                            self.line_changer()
+                            self.fresh()
+                        else:
+                            self.leave()
+                    case 'backspacedown':
+                        self.name = self.name[:-1]
+                        self.line_changer()
+                        self.fresh()
+                    case _:
+                        if len(self.name) == 10:
+                            continue
+                        elif event.event_type == 'down':
+                            if event.name in string.ascii_letters:
+                                self.name += event.name
+                                self.line_changer()
+                                self.fresh()
+                        else:
+                            continue
     
     def goOn(self) -> bool:
-        print(f"""
+        if self.options == 'Start':
+            print(f"""
 You are {self.name}, the {self.species} {self.background}.
 
 Press ENTER to continue... """)
-        
-        # event buffer
-        keyboard.read_event()
-        
-        # checks event
-        event = keyboard.read_event()
-        if event.name == 'enter':
-            return False
-        else:
-            self.fresh()
+            # event buffer
+            keyboard.read_event()
+            
+            # checks event
+            event = keyboard.read_event()
+            if event.name == 'enter':
+                return False
+            else:
+                self.fresh()
+                return True
+            
+        elif self.options == 'Controls':
+            self.showcontrols()
             return True
+            
+        else:
+            pass
     
     def leave(self) -> None:
         print('\nPress ESC to exit... ')
@@ -201,3 +221,29 @@ Press ENTER to continue... """)
             exit()
         else:
             self.fresh()
+
+    def showcontrols(self) -> bool:
+        self.reading = True
+        system('cls')
+        line = """
+q w e
+ \\|/
+a-s-d    <- directional movement (0.5) and rest (1.0)
+ /|\\
+z x c
+
+i       ->       view inventory
+g       ->       grab item
+l       ->       leave item
+v       ->       view items at location
+p       ->       get stats
+<       ->       go down stairs
+>       ->       go up stairs
+.       ->       scroll
+ENTER   ->       select
+ESC     ->       exit the game
+
+"""
+        line += """Press ESC to return... """
+        print(line)
+        
