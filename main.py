@@ -33,14 +33,14 @@ class Game:
         # hide cursor
         print("\x1b[?25l") 
         
-        # board
-        self.board = Board(1)
-        
-        # get item layout
-        self.ground = items.itemize(self.board, 30)
-        
         # starting screen
         self.startinfo = Lander()
+        
+        # board
+        self.board = Board(int(self.startinfo.boards))
+        
+        # get item layout
+        self.ground = items.itemize(self.board, int(self.startinfo.items))
 
         self.player = Player(self.board, self.startinfo.name, self.startinfo.species, self.startinfo.background)
         
