@@ -16,14 +16,12 @@ class Game:
     player: Player
     startinfo: Lander
     board: Board
-    #
-    # defaults
-    message: Message = Message(['' for _ in range(4)])
-    actionCount: int = 0
-    stage: int = 1
+    message: Message
+    actionCount: int
+    stage: int
     #
     #
-    # initializes with hidden cursor, player at (4, 4)
+    # initializes with hidden cursor
     def __init__(self) -> None:
         # hide cursor
         print("\x1b[?25l")
@@ -37,11 +35,21 @@ class Game:
         # get item layout
         self.ground = items.itemize(self.board, int(self.startinfo.items))
         #
+        # set player
         self.player = Player(self.board, self.startinfo.name, self.startinfo.species, self.startinfo.background)
+        #
+        # set message
+        self.message = Message(['' for _ in range(4)])
+        #
+        # set action count
+        self.actionCount = 0
+        #
+        # set stage
+        self.stage = 1
         #
         # update screen
         self._frame(action=False)
-
+        #
         # start
         self.process()
     #
