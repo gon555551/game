@@ -4,28 +4,28 @@ import random
 @dataclasses.dataclass
 class Board:
     """the boards"""
-    
+
     board: dict
     tiles: dict
     transdown: dict
     transup: dict
-    
+
     def __init__(self, num: int) -> None:
-        
+
         self.tiles = {
             'wall': '#',
             'empty': '.',
             'down': '<',
-            'up': '>', 
+            'up': '>',
             'sword': 'S',
             'shield': 'H',
             'many': '='
-        } 
-        
+        }
+
         self.board = {}
-        
+
         self.transdown = {}
-        
+
         self.transup = {}
         #
         #
@@ -44,7 +44,7 @@ class Board:
             for i in range(len(self.board[k])):
                 buff1.append(self.board[k][i])
             self.board[k] = buff1
-    
+
     def get_empty(self, num: int) -> list:
         result = []
         for _ in range(num):
@@ -57,18 +57,18 @@ class Board:
                     break
                 if self.board[k][x][y] == self.tiles['empty']:
                     ok = True
-                    
+
             result.append([k, x, y])
-        
+
         return result
-    
+
     def getempty_s(self, stage: int) -> tuple:
         while True:
             y = random.choice(range(len(self.board[stage][0])))
             x = random.choice(range(len(self.board[stage])))
             if self.board[stage][x][y] == self.tiles['empty']:
                 return (x, y)
-    
+
     def generate(self, num: int) -> None:
         for i in range(1, num+1):
             self.board[i] = []
@@ -79,9 +79,9 @@ class Board:
                 for b in range(x):
                     line.append(random.choice([self.tiles['wall'], self.tiles['empty'], self.tiles['empty']]))
                 self.board[i].append(line)
-        
+
         self.buffer()
-        
+
         for i in range(1, num+1):
             down = self.getempty_s(i)
             self.transdown[i] = down

@@ -3,20 +3,20 @@ import board
 
 class Player:
     """the player"""
-    
+
     x: int
     y: int
     inventory: list[items.Item]
-    
+
     damage: float
     protection: float
-    
+
     name: str
     species: str
     background: str
-    
+
     title: str
-    
+
     def __init__(self, board: board.Board, name: str = '', species: str = '', background: str = '') -> None:
         self.x, self.y = board.getempty_s(1)
         self.inventory = []
@@ -25,9 +25,9 @@ class Player:
         self.background = background
         self.damage = 0
         self.protection = 0
-        
+
         self.title = f'{self.name}, the {self.species} {self.background}'
-        
+
         if self.species == 'Human':
             self.damage = 1
             self.protection = 1
@@ -44,4 +44,3 @@ class Player:
 
     def __repr__(self) -> str:
         return '@'
-    

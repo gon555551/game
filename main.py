@@ -26,7 +26,7 @@ class Game:
     # initializes with hidden cursor, player at (4, 4)
     def __init__(self) -> None:
         # hide cursor
-        print("\x1b[?25l") 
+        print("\x1b[?25l")
         #
         # starting screen
         self.startinfo = Lander()
@@ -41,7 +41,7 @@ class Game:
         #
         # update screen
         self._frame(action=False)
-        
+
         # start
         self.process()
     #
@@ -54,7 +54,7 @@ class Game:
             action (bool, optional): _description_. Defaults to True.
             timer (float, optional): _description_. Defaults to 0.5.
         """
-        
+
         # clear
         system('cls')
         #
@@ -93,11 +93,11 @@ class Game:
                         done = True
                     else:
                         pass
-                  #      
+                  #
                 # otherwise, show empty
                 if done is False:
                     line += self.board.board[self.stage][a][b]
-            #          
+            #
             line += '\n'
         #
         # get message lines
@@ -111,9 +111,9 @@ class Game:
     #
     #
     #
-    # HERE IS THE COMMAND PROCESSOR LOOP METHOD   
+    # HERE IS THE COMMAND PROCESSOR LOOP METHOD
     # processes keyboard input on a loop
-    # 
+    #
     # checks on a while True, doesn't return
     #
     #
@@ -122,7 +122,7 @@ class Game:
         while True:
             # time setter
             self.attime = f'{datetime.datetime.now().strftime("[%H:%M:%S]")} '
-            
+
             # event reader
             event = keyboard.read_event()
             # event matcher
@@ -130,16 +130,16 @@ class Game:
                 #
                 case 'wdown':
                     self.goup()
-                #    
+                #
                 case 'adown':
                     self.goleft()
-                #    
+                #
                 case 'xdown':
                     self.godown()
-                #    
+                #
                 case 'ddown':
                     self.goright()
-                #    
+                #
                 case 'qdown':
                     self.goupleft()
                 #
@@ -160,13 +160,13 @@ class Game:
                 #
                 case 'sdown':
                     self.restonce()
-                #    
+                #
                 case 'gdown':
                     self.grab()
-                #    
+                #
                 case 'idown':
                     self.listinv()
-                #    
+                #
                 case 'ldown':
                     self.leaveitem()
                 #
@@ -175,7 +175,7 @@ class Game:
                 #
                 case 'escdown':
                     self.quit()
-                #    
+                #
                 case 'vdown':
                     self.view()
                 #
@@ -219,8 +219,8 @@ class Game:
             self.fail()
             return
         # otherwise, updates player position
-        self.player.x, self.player.y = self.player.x-1, self.player.y  
-        # reloads frame      
+        self.player.x, self.player.y = self.player.x-1, self.player.y
+        # reloads frame
         self._frame()
     #
     #
@@ -230,7 +230,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x, self.player.y-1        
+        self.player.x, self.player.y = self.player.x, self.player.y-1
         self._frame()
     #
     #
@@ -240,7 +240,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x+1, self.player.y        
+        self.player.x, self.player.y = self.player.x+1, self.player.y
         self._frame()
     #
     #
@@ -250,7 +250,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x, self.player.y+1        
+        self.player.x, self.player.y = self.player.x, self.player.y+1
         self._frame()
     #
     #
@@ -260,7 +260,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x-1, self.player.y-1       
+        self.player.x, self.player.y = self.player.x-1, self.player.y-1
         self._frame()
     #
     #
@@ -270,7 +270,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x-1, self.player.y+1      
+        self.player.x, self.player.y = self.player.x-1, self.player.y+1
         self._frame()
     #
     #
@@ -280,7 +280,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x+1, self.player.y-1        
+        self.player.x, self.player.y = self.player.x+1, self.player.y-1
         self._frame()
     #
     #
@@ -290,7 +290,7 @@ class Game:
             self.fail()
             return
         #
-        self.player.x, self.player.y = self.player.x+1, self.player.y+1      
+        self.player.x, self.player.y = self.player.x+1, self.player.y+1
         self._frame()
     #
     #
@@ -316,7 +316,7 @@ class Game:
             self._frame()
             return
         self.message.roll(f'{self.attime}Can\'t go up here!')
-        self._frame(action=False) 
+        self._frame(action=False)
     #
     #
     # grab item
@@ -324,13 +324,13 @@ class Game:
         if self.isfull():
             self.message.roll(f'{self.attime}Your inventory is full!')
             self._frame(action=False)
-            return 
+            return
         #
         here = []
         for i in self.ground:
             if (self.player.x, self.player.y, self.stage) == (i.x, i.y, i.k):
                 here.append(i)
-        #       
+        #
         match len(here):
             case 0:
                 self.message.roll(f'{self.attime}No item here!')
@@ -368,7 +368,7 @@ class Game:
                             else:
                                 selector += 1
                             updateline()
-                        #    
+                        #
                         case 'enterdown':
                             i = here[selector]
                             i.x, i.y, i.k = self.player.x, self.player.y, self.stage
@@ -391,12 +391,12 @@ class Game:
         if self.isempty():
             self.message.roll(f'{self.attime}You\'re not holding anything!')
             self._frame(action=False)
-            return 
+            return
         #
         if self.isfull():
             self.message.roll(f'{self.attime}Your inventory is full!')
             self._frame(action=False)
-            return 
+            return
         #
         selector = 0
         self.message.roll(f'{self.attime}What item to leave?')
@@ -415,14 +415,14 @@ class Game:
         while True:
             event = keyboard.read_event()
             match event.name + event.event_type:
-        #        
+        #
                 case '.down':
                     if selector == len(self.player.inventory)-1:
                         selector = 0
                     else:
                         selector += 1
                     updateline()
-                #    
+                #
                 case 'enterdown':
                     i = self.player.inventory[selector]
                     i.x, i.y, i.k = self.player.x, self.player.y, self.stage
@@ -445,7 +445,7 @@ class Game:
         if self.isempty():
             self.message.roll(f'{self.attime}You\'re not holding anything!')
             self._frame(action=False)
-            return 
+            return
         #
         mess = ''
         for i in self.player.inventory:
@@ -466,7 +466,7 @@ class Game:
     def getstats(self) -> None:
         self.statcheker()
         self.message.roll(f'{self.attime}Damage {self.player.damage}, Protection {self.player.protection}')
-        self._frame(action=False)  
+        self._frame(action=False)
     #
     #
     # view what's on the ground
@@ -492,7 +492,7 @@ class Game:
     def quit(self) -> None:
         # reloads
         self.message.roll(f'{self.attime}Press ESC to exit. ')
-        self._frame(action=False) 
+        self._frame(action=False)
         #
         # event buffer
         keyboard.read_event()

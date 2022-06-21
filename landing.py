@@ -5,7 +5,7 @@ from sys import exit
 
 class Lander():
     """landing page"""
-    
+
     species_list: list[str] = [
         'Human',
         'Elf',
@@ -20,43 +20,43 @@ class Lander():
         'Controls',
         'Setup'
     ]
-    
+
     place: dict = {
         0: species_list,
         1: background_list,
         2: options_list
     }
-    
+
     on_bg: str = '  '
     on_sp: str = '  '
     on_op: str = '  '
-    
+
     name: str = ''
-    
+
     species: str = ''
     background: str = ''
     options: str = ''
-    
+
     boards: str = '3'
     items: str = '10'
-    
+
     line_species: str = ''
     line_background: str = ''
     line_options: str = ''
-    
+
     choice: int = 0
     selector: int = 0
-    
+
     reading: bool = False
-    
+
     tinkering: bool = False
     on_bn: str = '  '
     on_in: str = '  '
     bn: bool = True
-    
-    
+
+
     def __init__(self) -> None:
-        self.fresh()                
+        self.fresh()
         self.start()
 
 
@@ -85,22 +85,22 @@ Just type your name! 10 characters maximum..."""
             self.on_bg = '  '
             self.on_op = '  '
             self.on_sp = '* '
-            
+
             self.line_species = ''
             for s in self.species_list:
                 if self.species_list.index(s) == self.selector:
                     self.line_species += f'\n> {s:10} <'
                 else:
                     self.line_species += f'\n  {s:10}  '
-            
+
             self.line_background = ''
             for b in self.background_list:
                 self.line_background += f'\n  {b:10}  '
-                
+
             self.line_options = ''
             for o in self.options_list:
                 self.line_options += f'\n  {o:10}  '
-                
+
         elif self.choice == 1:
             self.on_sp = '  '
             self.on_op = '  '
@@ -111,11 +111,11 @@ Just type your name! 10 characters maximum..."""
                     self.line_background += f'\n> {b:10} <'
                 else:
                     self.line_background += f'\n  {b:10}  '
-                    
+
             self.line_options = ''
             for o in self.options_list:
                 self.line_options += f'\n  {o:10}  '
-                
+
         else:
             self.on_bg = '  '
             self.on_sp = '  '
@@ -126,11 +126,11 @@ Just type your name! 10 characters maximum..."""
                     self.line_options += f'\n> {b:10} <'
                 else:
                     self.line_options += f'\n  {b:10}  '
-                
+
     def start(self) -> None:
         while True:
             event = keyboard.read_event()
-            
+
             if self.tinkering:
                 match event.name + event.event_type:
                     case 'escdown':
@@ -164,7 +164,7 @@ Just type your name! 10 characters maximum..."""
                                         self.items += event.name
                                         self.tinker()
 
-            
+
             elif self.reading:
                 match event.name + event.event_type:
                     case 'escdown':
@@ -229,7 +229,7 @@ Just type your name! 10 characters maximum..."""
                                 self.fresh()
                         else:
                             continue
-    
+
     def goOn(self) -> bool:
         if self.options == 'Start':
             print(f"""
@@ -238,7 +238,7 @@ Just type your name! 10 characters maximum..."""
 Press ENTER to continue... """)
             # event buffer
             keyboard.read_event()
-            
+
             # checks event
             event = keyboard.read_event()
             if event.name == 'enter':
@@ -246,21 +246,21 @@ Press ENTER to continue... """)
             else:
                 self.fresh()
                 return True
-            
+
         elif self.options == 'Controls':
             self.showcontrols()
             return True
-            
+
         else:
             self.tinker()
             return True
-    
+
     def leave(self, tink: bool = False) -> None:
         print('\nPress ESC to exit... ')
-        
+
         # event buffer
         keyboard.read_event()
-        
+
         # checks event
         event = keyboard.read_event()
         if event.name == 'esc':
@@ -292,11 +292,11 @@ ESC     ->       exit the game
 """
         line += """Press ESC to return... """
         print(line)
-        
+
     def tinker(self) -> None:
         self.tinkering = True
         system('cls')
-        
+
         def changer() -> None:
             if self.bn:
                 self.on_bn = '* '
@@ -304,9 +304,9 @@ ESC     ->       exit the game
             else:
                 self.on_bn = '  '
                 self.on_in = '* '
-        
+
         changer()
-        
+
         line = f""">>>>{'':5}You are {self.name}, the {self.species} {self.background}.{'':5}<<<<
 
 {self.on_bn}Board Number: {self.boards}
