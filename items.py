@@ -1,6 +1,7 @@
 import board
 import random
 
+
 class Item:
     """the items"""
 
@@ -14,6 +15,7 @@ class Item:
         self.damage = damage
         self.protection = protection
 
+
 class Sword(Item):
     """swords"""
 
@@ -23,10 +25,10 @@ class Sword(Item):
     y: int
     k: int
 
-    sym: str = 'S'
+    sym: str = "S"
 
     def __init__(self, id: int, name: str, x, y, k, damage) -> None:
-        super().__init__('sword', damage, 0)
+        super().__init__("sword", damage, 0)
         self.id = id
         self.name = name
         self.x = x
@@ -34,7 +36,8 @@ class Sword(Item):
         self.k = k
 
     def __repr__(self) -> str:
-        return 'S'
+        return "S"
+
 
 class Shield(Item):
     """shields"""
@@ -45,10 +48,10 @@ class Shield(Item):
     y: int
     k: int
 
-    sym: str = 'H'
+    sym: str = "H"
 
     def __init__(self, id: int, name: str, x, y, k, prot) -> None:
-        super().__init__('shield', 0, prot)
+        super().__init__("shield", 0, prot)
         self.id = id
         self.name = name
         self.x = x
@@ -56,7 +59,7 @@ class Shield(Item):
         self.k = k
 
     def __repr__(self) -> str:
-        return 'H'
+        return "H"
 
 
 def itemize(board: board.Board, num: int) -> tuple:
@@ -66,7 +69,7 @@ def itemize(board: board.Board, num: int) -> tuple:
 
     for i in result:
         tp = random.choice(Item.__subclasses__())
-        returned.append(tp(id, f'{id}', i[1], i[2], i[0], random.randint(1, 10)))
+        returned.append(tp(id, f"{id}", i[1], i[2], i[0], random.randint(1, 10)))
         id += 1
 
     return returned

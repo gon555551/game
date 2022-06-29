@@ -1,5 +1,6 @@
 import dataclasses
 
+
 @dataclasses.dataclass
 class Message:
     """message lines"""
@@ -9,4 +10,3 @@ class Message:
     def roll(self, message: str) -> None:
         self.lines = self.lines[1:]
         self.lines.append(message)
-    

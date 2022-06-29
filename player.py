@@ -1,6 +1,7 @@
 import items
 import board
 
+
 class Player:
     """the player"""
 
@@ -17,7 +18,13 @@ class Player:
 
     title: str
 
-    def __init__(self, board: board.Board, name: str = '', species: str = '', background: str = '') -> None:
+    def __init__(
+        self,
+        board: board.Board,
+        name: str = "",
+        species: str = "",
+        background: str = "",
+    ) -> None:
         self.x, self.y = board.getempty_s(1)
         self.inventory = []
         self.name = name
@@ -26,21 +33,21 @@ class Player:
         self.damage = 0
         self.protection = 0
 
-        self.title = f'{self.name}, the {self.species} {self.background}'
+        self.title = f"{self.name}, the {self.species} {self.background}"
 
-        if self.species == 'Human':
+        if self.species == "Human":
             self.damage = 1
             self.protection = 1
-        if self.species == 'Orc':
+        if self.species == "Orc":
             self.damage = 2
             self.protection = 0
-        if self.species == 'Elf':
+        if self.species == "Elf":
             self.damage = 0
             self.protection = 2
-        if self.background == 'Warrior':
+        if self.background == "Warrior":
             self.damage += 1
         else:
             self.protection += 1
 
     def __repr__(self) -> str:
-        return '@'
+        return "@"
